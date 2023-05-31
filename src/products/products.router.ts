@@ -1,18 +1,14 @@
 import express from 'express';
-import { faker } from '@faker-js/faker';
+import { ProductsService } from './products.service.js';
 
 export const productsRouter = express.Router();
 const baseUrl = '/products';
+const productsService = new ProductsService();
 
 productsRouter.get(baseUrl, (req, res) => {
   const { size = 100 } = req.query;
   const sizeNumber = parseInt(size as string, 10);
-
-  const products = [...Array(sizeNumber)].map(() => ({
-    name: faker.commerce.productName(),
-    price: parseInt(faker.commerce.price(), 10),
-    image: faker.image.url(),
-  }));
+  const products = productsService.findAll();
 
   res.json(products);
 });
@@ -22,12 +18,21 @@ productsRouter.get(`${baseUrl}/filter`, (req, res) => {
 });
 
 productsRouter.get(`${baseUrl}/:id`, (req, res) => {
-  res.json({ id: 0, name: 'Product1', price: 1000 });
+  const id = req.params.id;
+  const product = productsService.findOne(id);
+
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404).json({ message: 'not found' });
+  }
 });
 
+// TODO: Implementar el resto de los métodos
+// TODO: Implementar /categories and /users
 productsRouter.post(baseUrl, (req, res) => {
   const body = req.body;
-  res.json({ message: 'created', data: body });
+  res.status(201).json({ message: 'created', data: body });
 });
 
 productsRouter.patch(`${baseUrl}/:id`, (req, res) => {
