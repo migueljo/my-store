@@ -24,8 +24,18 @@ categoriesRouter.get(baseUrl, (req, res) => {
   }
 });
 
-categoriesRouter.get(`${baseUrl}/:id`, (req, res) => {
-  res.json({ name: 'category1', id: req.params.id });
+categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const category = categoryService.findOne(categoryId);
+    if (category) {
+      res.json(category);
+    } else {
+      res.status(404).json({ message: 'not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 categoriesRouter.post(baseUrl, (req, res) => {
