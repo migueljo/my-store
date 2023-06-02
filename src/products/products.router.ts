@@ -28,20 +28,34 @@ productsRouter.get(`${baseUrl}/:id`, (req, res) => {
   }
 });
 
-// TODO: Implementar el resto de los métodos
 // TODO: Implementar /categories and /users
 productsRouter.post(baseUrl, (req, res) => {
-  const body = req.body;
-  res.status(201).json({ message: 'created', data: body });
+  try {
+    const body = req.body;
+    const newProduct = productsService.create(body);
+    res.status(201).json({ message: 'created', data: newProduct });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 productsRouter.patch(`${baseUrl}/:id`, (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  res.json({ message: 'updated', data: { ...body, id } });
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const updated = productsService.update(id, body);
+    res.json({ message: 'updated', updated });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 productsRouter.delete(`${baseUrl}/:id`, (req, res) => {
-  const id = req.params.id;
-  res.json({ message: 'deleted', data: { id } });
+  try {
+    const id = req.params.id;
+    const deleted = productsService.delete(id);
+    res.json({ message: 'deleted', deleted });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
