@@ -39,8 +39,13 @@ categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res) => {
 });
 
 categoriesRouter.post(baseUrl, (req, res) => {
-  const body = req.body;
-  res.json({ message: 'created', data: body });
+  try {
+    const body = req.body;
+    const newCategory = categoryService.create(body);
+    res.status(201).json({ message: 'created', data: newCategory });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 categoriesRouter.patch(`${baseUrl}/:id`, (req, res) => {
