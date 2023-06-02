@@ -48,6 +48,7 @@ categoriesRouter.post(baseUrl, (req, res) => {
   }
 });
 
+// TODO: Implementar /categories and /users
 categoriesRouter.patch(`${baseUrl}/:id`, (req, res) => {
   const id = req.params.id;
   const body = req.body;

@@ -28,7 +28,6 @@ productsRouter.get(`${baseUrl}/:id`, (req, res) => {
   }
 });
 
-// TODO: Implementar /categories and /users
 productsRouter.post(baseUrl, (req, res) => {
   try {
     const body = req.body;
