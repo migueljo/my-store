@@ -1,7 +1,10 @@
 import express from 'express';
 
+import { CategoriesService } from './categories.service.js';
+
 export const categoriesRouter = express.Router();
 const baseUrl = '/categories';
+const categoryService = new CategoriesService();
 
 categoriesRouter.get(
   `${baseUrl}/:categoryId/products/:productId`,
@@ -13,10 +16,12 @@ categoriesRouter.get(
 );
 
 categoriesRouter.get(baseUrl, (req, res) => {
-  res.json([
-    { name: 'category1', id: 0 },
-    { name: 'category1', id: 1 },
-  ]);
+  try {
+    const categories = categoryService.findAll();
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 categoriesRouter.get(`${baseUrl}/:id`, (req, res) => {

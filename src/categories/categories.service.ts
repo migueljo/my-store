@@ -5,7 +5,7 @@ type Category = {
   id: string;
 };
 
-export class ProductsService {
+export class CategoriesService {
   private categories;
 
   constructor() {
