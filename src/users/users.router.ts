@@ -1,15 +1,16 @@
 import express from 'express';
+import { UsersService } from './users.service.js';
 
 export const usersRouter = express.Router();
 const baseUrl = '/users';
+const usersService = new UsersService();
 
 usersRouter.get('/users', (req, res) => {
-  const { limit, offset } = req.query;
-
-  if (limit && offset) {
-    res.json({ limit, offset });
-  } else {
-    res.json([]);
+  try {
+    const users = usersService.findAll();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
   }
 });
 
