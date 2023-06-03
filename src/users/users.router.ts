@@ -38,10 +38,15 @@ usersRouter.post(baseUrl, (req, res) => {
   }
 });
 
-usersRouter.patch(`${baseUrl}/:id`, (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  res.json({ message: 'updated', data: { ...body, id } });
+usersRouter.patch(`${baseUrl}/:userId`, (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userChanges = req.body;
+    const updated = usersService.update(userId, userChanges);
+    res.json({ message: 'updated', updated });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 usersRouter.delete(`${baseUrl}/:id`, (req, res) => {
