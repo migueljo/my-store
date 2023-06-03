@@ -34,8 +34,12 @@ export class CategoriesService {
   findOne(categroyId: string): Category | undefined {
     return this.categories.find((category) => category.id === categroyId);
   }
-  update(categoryId: string, changes: Partial<Category>): boolean {
+  update(categoryId: string, changes: Partial<Category>): Category {
     const categoryToUpdate = this.findOne(categoryId);
+    if (!categoryToUpdate) {
+      throw new Error('Category not found');
+    }
+
     if (categoryToUpdate) {
       const categories = this.categories.map((category) => {
         if (category.id === categoryId) {
@@ -49,16 +53,20 @@ export class CategoriesService {
       this.categories = categories;
     }
 
-    return !!categoryToUpdate;
+    return this.categories.find((category) => category.id === categoryId);
   }
-  delete(categoryId: string): boolean {
+  delete(categoryId: string): { id: string } {
     const categoryToDelete = this.findOne(categoryId);
+    if (!categoryToDelete) {
+      throw new Error('Category not found');
+    }
+
     if (categoryToDelete) {
       const categories = this.categories.filter(
         (category) => category.id !== categoryId,
       );
       this.categories = categories;
     }
-    return !!categoryToDelete;
+    return { id: categoryId };
   }
 }

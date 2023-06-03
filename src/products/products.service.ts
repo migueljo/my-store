@@ -1,9 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-type ProductOptions = {
-  size: number;
-};
-
 type Product = {
   name: string;
   price: number;
@@ -43,8 +39,12 @@ export class ProductsService {
   findOne(productId: string): Product | undefined {
     return this.products.find((product) => product.id === productId);
   }
-  update(productId: string, changes: Partial<Product>): boolean {
+  update(productId: string, changes: Partial<Product>): Product {
     const productToUpdate = this.findOne(productId);
+    if (!productToUpdate) {
+      throw new Error('Product not found');
+    }
+
     if (productToUpdate) {
       const products = this.products.map((product) => {
         if (product.id === productId) {
@@ -58,16 +58,19 @@ export class ProductsService {
       this.products = products;
     }
 
-    return !!productToUpdate;
+    return this.products.find((product) => product.id === productId);
   }
-  delete(productId: string): boolean {
+  delete(productId: string): { id: string } {
     const productToDelete = this.findOne(productId);
+    if (!productToDelete) {
+      throw new Error('Product not found');
+    }
     if (productToDelete) {
       const products = this.products.filter(
         (product) => product.id !== productId,
       );
       this.products = products;
     }
-    return !!productToDelete;
+    return { id: productId };
   }
 }

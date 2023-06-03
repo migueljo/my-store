@@ -33,8 +33,11 @@ export class UsersService {
   findOne(userId: string): User | undefined {
     return this.users.find((category) => category.id === userId);
   }
-  update(userId: string, changes: Partial<User>): boolean {
+  update(userId: string, changes: Partial<User>): User {
     const userToUpdate = this.findOne(userId);
+    if (!userToUpdate) {
+      throw new Error('User not found');
+    }
     if (userToUpdate) {
       const users = this.users.map((users) => {
         if (users.id === userId) {
@@ -47,15 +50,19 @@ export class UsersService {
       });
       this.users = users;
     }
-
-    return !!userToUpdate;
+    return this.users.find((user) => user.id === userId);
   }
-  delete(userId: string): boolean {
+  delete(userId: string): { id: string } {
     const userToDelete = this.findOne(userId);
+    if (!userToDelete) {
+      throw new Error('User not found');
+    }
+
     if (userToDelete) {
       const users = this.users.filter((user) => user.id !== userId);
       this.users = users;
     }
-    return !!userToDelete;
+
+    return { id: userId };
   }
 }
