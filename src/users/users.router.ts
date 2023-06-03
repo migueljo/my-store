@@ -14,9 +14,28 @@ usersRouter.get('/users', (req, res) => {
   }
 });
 
+usersRouter.get('/users/:userId', (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = usersService.findOne(userId);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
+});
+
 usersRouter.post(baseUrl, (req, res) => {
-  const body = req.body;
-  res.json({ message: 'created', data: body });
+  try {
+    const user = req.body;
+    const newUser = usersService.create(user);
+    res.status(201).json({ message: 'created', data: newUser });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 usersRouter.patch(`${baseUrl}/:id`, (req, res) => {
