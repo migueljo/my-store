@@ -28,16 +28,18 @@ usersRouter.get('/users/:userId', (req, res) => {
   }
 });
 
+// TODO: Validate user fields
 usersRouter.post(baseUrl, (req, res) => {
   try {
     const user = req.body;
     const newUser = usersService.create(user);
-    res.status(201).json({ message: 'created', data: newUser });
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }
 });
 
+// TODO: Validate user fields
 usersRouter.patch(`${baseUrl}/:userId`, (req, res) => {
   try {
     const { userId } = req.params;

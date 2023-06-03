@@ -28,16 +28,18 @@ productsRouter.get(`${baseUrl}/:id`, (req, res) => {
   }
 });
 
+// TODO: Validate product fields
 productsRouter.post(baseUrl, (req, res) => {
   try {
     const body = req.body;
     const newProduct = productsService.create(body);
-    res.status(201).json({ message: 'created', data: newProduct });
+    res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }
 });
 
+// TODO: Validate product fields
 productsRouter.patch(`${baseUrl}/:id`, (req, res) => {
   try {
     const id = req.params.id;

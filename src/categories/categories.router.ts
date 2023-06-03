@@ -38,16 +38,18 @@ categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res) => {
   }
 });
 
+// TODO: Validate categories fields
 categoriesRouter.post(baseUrl, (req, res) => {
   try {
     const body = req.body;
     const newCategory = categoryService.create(body);
-    res.status(201).json({ message: 'created', data: newCategory });
+    res.status(201).json(newCategory);
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }
 });
 
+// TODO: Validate categories fields
 categoriesRouter.patch(`${baseUrl}/:categoryId`, (req, res) => {
   try {
     const { categoryId } = req.params;
