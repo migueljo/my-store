@@ -49,7 +49,12 @@ usersRouter.patch(`${baseUrl}/:userId`, (req, res) => {
   }
 });
 
-usersRouter.delete(`${baseUrl}/:id`, (req, res) => {
-  const id = req.params.id;
-  res.json({ message: 'deleted', data: { id } });
+usersRouter.delete(`${baseUrl}/:userId`, (req, res) => {
+  try {
+    const { userId } = req.params;
+    const deleted = usersService.delete(userId);
+    res.json({ message: 'deleted', deleted });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
