@@ -49,10 +49,15 @@ categoriesRouter.post(baseUrl, (req, res) => {
 });
 
 // TODO: Implementar /categories and /users
-categoriesRouter.patch(`${baseUrl}/:id`, (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  res.json({ message: 'updated', data: { ...body, id } });
+categoriesRouter.patch(`${baseUrl}/:categoryId`, (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const categoryChanges = req.body;
+    const updated = categoryService.update(categoryId, categoryChanges);
+    res.json({ message: 'updated', updated });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 });
 
 categoriesRouter.delete(`${baseUrl}/:id`, (req, res) => {
