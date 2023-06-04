@@ -11,5 +11,6 @@ export default function validateBody<T extends z.AnyZodObject>(schema: T) {
       const error = new Error(formattedError.message);
       next(error);
     }
+    next();
   };
 }

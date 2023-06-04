@@ -1,12 +1,15 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
+import { z } from 'zod';
 
-type Product = {
-  name: string;
-  price: number;
-  image: string;
-  id: string;
-};
+export const ProductSchema = z.object({
+  name: z.string(),
+  price: z.number().int().min(1),
+  image: z.string().url(),
+  id: z.string(),
+});
+
+export type Product = z.infer<typeof ProductSchema>;
 
 export class ProductsService {
   private products;
@@ -16,13 +19,19 @@ export class ProductsService {
   }
 
   private generate(size = 100): Product[] {
+    const first: Product = {
+      name: faker.commerce.productName(),
+      price: parseInt(faker.commerce.price(), 10),
+      image: faker.image.url(),
+      id: '4136cd0b-d90b-4af7-b485-5d1ded8db252',
+    };
     const products: Product[] = [...Array(size)].map(() => ({
       name: faker.commerce.productName(),
       price: parseInt(faker.commerce.price(), 10),
       image: faker.image.url(),
       id: faker.string.uuid(),
     }));
-    return products;
+    return [first, ...products];
   }
 
   async create(product: Omit<Product, 'id'>): Promise<Product> {

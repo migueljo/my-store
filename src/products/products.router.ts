@@ -1,6 +1,7 @@
 import express from 'express';
 
-import { ProductsService } from './products.service.js';
+import { ProductSchema, ProductsService } from './products.service.js';
+import validateBody from '../middleware/validate-body.middleware.js';
 
 export const productsRouter = express.Router();
 const baseUrl = '/products';
@@ -29,28 +30,34 @@ productsRouter.get(`${baseUrl}/:id`, async (req, res) => {
   }
 });
 
-// TODO: Validate product fields
-productsRouter.post(baseUrl, async (req, res, next) => {
-  try {
-    const body = req.body;
-    const newProduct = await productsService.create(body);
-    res.status(201).json(newProduct);
-  } catch (error) {
-    next(error);
-  }
-});
+productsRouter.post(
+  baseUrl,
+  validateBody(ProductSchema.omit({ id: true })),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newProduct = await productsService.create(body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
-// TODO: Validate product fields
-productsRouter.patch(`${baseUrl}/:id`, async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const body = req.body;
-    const updated = await productsService.update(id, body);
-    res.json({ message: 'updated', updated });
-  } catch (error) {
-    next(error);
-  }
-});
+productsRouter.patch(
+  `${baseUrl}/:id`,
+  validateBody(ProductSchema.omit({ id: true }).partial()),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const body = req.body;
+      const updatedProduct = await productsService.update(id, body);
+      res.json(updatedProduct);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 productsRouter.delete(`${baseUrl}/:id`, async (req, res, next) => {
   try {
