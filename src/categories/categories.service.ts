@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { z } from 'zod';
+import * as Boom from '@hapi/boom';
 
 export const CategorySchema = z.object({
   name: z.string(),
@@ -39,12 +40,18 @@ export class CategoriesService {
     return this.categories;
   }
   findOne(categroyId: string): Category | undefined {
-    return this.categories.find((category) => category.id === categroyId);
+    const category = this.categories.find(
+      (category) => category.id === categroyId,
+    );
+    if (!category) {
+      throw Boom.notFound('Category not found');
+    }
+    return category;
   }
   update(categoryId: string, changes: Partial<Category>): Category {
     const categoryToUpdate = this.findOne(categoryId);
     if (!categoryToUpdate) {
-      throw new Error('Category not found');
+      throw Boom.notFound('Category not found');
     }
 
     if (categoryToUpdate) {
@@ -65,7 +72,7 @@ export class CategoriesService {
   delete(categoryId: string): { id: string } {
     const categoryToDelete = this.findOne(categoryId);
     if (!categoryToDelete) {
-      throw new Error('Category not found');
+      throw Boom.notFound('Category not found');
     }
 
     if (categoryToDelete) {

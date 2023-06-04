@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import * as Boom from '@hapi/boom';
 import { z } from 'zod';
 
 export const UserSchema = z.object({
@@ -42,7 +43,11 @@ export class UsersService {
     return this.users;
   }
   findOne(userId: string): User | undefined {
-    return this.users.find((category) => category.id === userId);
+    const user = this.users.find((category) => category.id === userId);
+    if (!user) {
+      throw Boom.notFound('User not found');
+    }
+    return user;
   }
   update(userId: string, changes: Partial<User>): User {
     const userToUpdate = this.findOne(userId);

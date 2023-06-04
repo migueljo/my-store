@@ -46,7 +46,11 @@ export class ProductsService {
     return this.products;
   }
   async findOne(productId: string): Promise<Product | undefined> {
-    return this.products.find((product) => product.id === productId);
+    const user = this.products.find((product) => product.id === productId);
+    if (!user) {
+      throw Boom.notFound('Product not found');
+    }
+    return user;
   }
   async update(productId: string, changes: Partial<Product>): Promise<Product> {
     const productToUpdate = await this.findOne(productId);
