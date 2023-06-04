@@ -24,7 +24,7 @@ export class ProductsService {
     return products;
   }
 
-  create(product: Omit<Product, 'id'>): Product {
+  async create(product: Omit<Product, 'id'>): Promise<Product> {
     const newProduct = {
       ...product,
       id: faker.string.uuid(),
@@ -32,15 +32,15 @@ export class ProductsService {
     this.products.push(newProduct);
     return newProduct;
   }
-  findAll(): Product[] {
+  async findAll(): Promise<Product[]> {
     console.log('Find all', this.products);
     return this.products;
   }
-  findOne(productId: string): Product | undefined {
+  async findOne(productId: string): Promise<Product | undefined> {
     return this.products.find((product) => product.id === productId);
   }
-  update(productId: string, changes: Partial<Product>): Product {
-    const productToUpdate = this.findOne(productId);
+  async update(productId: string, changes: Partial<Product>): Promise<Product> {
+    const productToUpdate = await this.findOne(productId);
     if (!productToUpdate) {
       throw new Error('Product not found');
     }
@@ -60,8 +60,8 @@ export class ProductsService {
 
     return this.products.find((product) => product.id === productId);
   }
-  delete(productId: string): { id: string } {
-    const productToDelete = this.findOne(productId);
+  async delete(productId: string): Promise<{ id: string }> {
+    const productToDelete = await this.findOne(productId);
     if (!productToDelete) {
       throw new Error('Product not found');
     }
