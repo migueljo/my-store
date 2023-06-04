@@ -7,13 +7,9 @@ export const usersRouter = express.Router();
 const baseUrl = '/users';
 const usersService = new UsersService();
 
-usersRouter.get('/users', (req, res, next) => {
-  try {
-    const users = usersService.findAll();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
+usersRouter.get(baseUrl, (req, res, next) => {
+  const users = usersService.findAll();
+  res.json(users);
 });
 
 usersRouter.get('/users/:userId', (req, res, next) => {

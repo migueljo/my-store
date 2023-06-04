@@ -1,20 +1,18 @@
 import * as Boom from '@hapi/boom';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-export default function errorHandler() {
-  return (
-    error: Error,
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ): void => {
-    if (error) {
-      if (Boom.isBoom(error)) {
-        res.status(error.output.statusCode).json(error.output.payload);
-      } else {
-        res.status(500).json({ error: true, message: error.message });
-      }
+// This middleware does not call next because it is the last middleware
+export default function errorHandler(
+  error: Error,
+  _req: Request,
+  res: Response,
+  _next: NextFunction, // next must be declare for express to recognize this as an error middleware handler
+): void {
+  if (error) {
+    if (Boom.isBoom(error)) {
+      res.status(error.output.statusCode).json(error.output.payload);
+    } else {
+      res.status(500).json({ error: true, message: error.message });
     }
-    next(error);
-  };
+  }
 }

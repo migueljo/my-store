@@ -9,6 +9,6 @@ const port = 3005;
 
 app.use(bodyParser.json());
 routerApi(app);
-app.use(errorHandler());
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
