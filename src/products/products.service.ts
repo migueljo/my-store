@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import * as Boom from '@hapi/boom';
 
 type Product = {
   name: string;
@@ -42,7 +43,7 @@ export class ProductsService {
   async update(productId: string, changes: Partial<Product>): Promise<Product> {
     const productToUpdate = await this.findOne(productId);
     if (!productToUpdate) {
-      throw new Error('Product not found');
+      throw Boom.notFound('Product not found');
     }
 
     if (productToUpdate) {

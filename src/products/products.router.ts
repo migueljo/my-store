@@ -1,4 +1,6 @@
 import express from 'express';
+import * as Boom from '@hapi/boom';
+
 import { ProductsService } from './products.service.js';
 
 export const productsRouter = express.Router();
@@ -47,6 +49,9 @@ productsRouter.patch(`${baseUrl}/:id`, async (req, res) => {
     const updated = await productsService.update(id, body);
     res.json({ message: 'updated', updated });
   } catch (error) {
+    if (Boom.isBoom(error)) {
+      return res.status(error.output.statusCode).json(error.output.payload);
+    }
     res.status(500).json({ error: true, message: error.message });
   }
 });
