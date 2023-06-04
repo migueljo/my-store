@@ -42,6 +42,7 @@ productsRouter.post(baseUrl, async (req, res) => {
 });
 
 // TODO: Validate product fields
+// TODO: Create a error middleware to handle errors using Boom
 productsRouter.patch(`${baseUrl}/:id`, async (req, res) => {
   try {
     const id = req.params.id;
