@@ -31,38 +31,35 @@ productsRouter.get(`${baseUrl}/:id`, async (req, res) => {
 });
 
 // TODO: Validate product fields
-productsRouter.post(baseUrl, async (req, res) => {
+productsRouter.post(baseUrl, async (req, res, next) => {
   try {
     const body = req.body;
     const newProduct = await productsService.create(body);
     res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });
 
 // TODO: Validate product fields
 // TODO: Create a error middleware to handle errors using Boom
-productsRouter.patch(`${baseUrl}/:id`, async (req, res) => {
+productsRouter.patch(`${baseUrl}/:id`, async (req, res, next) => {
   try {
     const id = req.params.id;
     const body = req.body;
     const updated = await productsService.update(id, body);
     res.json({ message: 'updated', updated });
   } catch (error) {
-    if (Boom.isBoom(error)) {
-      return res.status(error.output.statusCode).json(error.output.payload);
-    }
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });
 
-productsRouter.delete(`${baseUrl}/:id`, async (req, res) => {
+productsRouter.delete(`${baseUrl}/:id`, async (req, res, next) => {
   try {
     const id = req.params.id;
     const deleted = await productsService.delete(id);
     res.json({ message: 'deleted', deleted });
   } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });

@@ -34,7 +34,6 @@ export class ProductsService {
     return newProduct;
   }
   async findAll(): Promise<Product[]> {
-    console.log('Find all', this.products);
     return this.products;
   }
   async findOne(productId: string): Promise<Product | undefined> {
