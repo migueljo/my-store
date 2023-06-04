@@ -1,9 +1,12 @@
 import { faker } from '@faker-js/faker';
+import { z } from 'zod';
 
-type Category = {
-  name: string;
-  id: string;
-};
+export const CategorySchema = z.object({
+  name: z.string(),
+  id: z.string(),
+});
+
+export type Category = z.infer<typeof CategorySchema>;
 
 export class CategoriesService {
   private categories;
@@ -13,11 +16,15 @@ export class CategoriesService {
   }
 
   private generate(size = 100): Category[] {
-    const products: Category[] = [...Array(size)].map(() => ({
+    const first: Category = {
+      name: 'First category',
+      id: '9836cd0b-d90b-4af7-b485-5d1ded8db245',
+    };
+    const categories: Category[] = [...Array(size)].map(() => ({
       name: faker.word.noun(),
       id: faker.string.uuid(),
     }));
-    return products;
+    return [first, ...categories];
   }
 
   create(category: Omit<Category, 'id'>): Category {

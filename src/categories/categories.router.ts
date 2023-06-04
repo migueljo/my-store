@@ -1,6 +1,7 @@
 import express from 'express';
 
-import { CategoriesService } from './categories.service.js';
+import { CategoriesService, CategorySchema } from './categories.service.js';
+import validateBody from '../middleware/validate-body.middleware.js';
 
 export const categoriesRouter = express.Router();
 const baseUrl = '/categories';
@@ -15,16 +16,16 @@ categoriesRouter.get(
   },
 );
 
-categoriesRouter.get(baseUrl, (req, res) => {
+categoriesRouter.get(baseUrl, (req, res, next) => {
   try {
     const categories = categoryService.findAll();
     res.json(categories);
   } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });
 
-categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res) => {
+categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res, next) => {
   try {
     const { categoryId } = req.params;
     const category = categoryService.findOne(categoryId);
@@ -34,39 +35,48 @@ categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res) => {
       res.status(404).json({ message: 'not found' });
     }
   } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });
 
-// TODO: Validate categories fields
-categoriesRouter.post(baseUrl, (req, res) => {
-  try {
-    const body = req.body;
-    const newCategory = categoryService.create(body);
-    res.status(201).json(newCategory);
-  } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
-  }
-});
+categoriesRouter.post(
+  baseUrl,
+  validateBody(CategorySchema.omit({ id: true })),
+  (req, res, next) => {
+    try {
+      const body = req.body;
+      const newCategory = categoryService.create(body);
+      res.status(201).json(newCategory);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
-// TODO: Validate categories fields
-categoriesRouter.patch(`${baseUrl}/:categoryId`, (req, res) => {
-  try {
-    const { categoryId } = req.params;
-    const categoryChanges = req.body;
-    const updated = categoryService.update(categoryId, categoryChanges);
-    res.json({ message: 'updated', updated });
-  } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
-  }
-});
+categoriesRouter.patch(
+  `${baseUrl}/:categoryId`,
+  validateBody(CategorySchema.omit({ id: true }).partial()),
+  (req, res, next) => {
+    try {
+      const { categoryId } = req.params;
+      const categoryChanges = req.body;
+      const updatedCategory = categoryService.update(
+        categoryId,
+        categoryChanges,
+      );
+      res.json(updatedCategory);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
-categoriesRouter.delete(`${baseUrl}/:categoryId`, (req, res) => {
+categoriesRouter.delete(`${baseUrl}/:categoryId`, (req, res, next) => {
   try {
     const { categoryId } = req.params;
     const deleted = categoryService.delete(categoryId);
     res.json({ message: 'deleted', deleted });
   } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
+    next(error);
   }
 });
