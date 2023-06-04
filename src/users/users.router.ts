@@ -44,17 +44,20 @@ usersRouter.post(
   },
 );
 
-// TODO: Validate user fields
-usersRouter.patch(`${baseUrl}/:userId`, (req, res) => {
-  try {
-    const { userId } = req.params;
-    const userChanges = req.body;
-    const updated = usersService.update(userId, userChanges);
-    res.json({ message: 'updated', updated });
-  } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
-  }
-});
+usersRouter.patch(
+  `${baseUrl}/:userId`,
+  validateBody(UserSchema.omit({ id: true }).partial()),
+  (req, res) => {
+    try {
+      const { userId } = req.params;
+      const userChanges = req.body;
+      const updated = usersService.update(userId, userChanges);
+      res.json({ message: 'updated', updated });
+    } catch (error) {
+      res.status(500).json({ error: true, message: error.message });
+    }
+  },
+);
 
 usersRouter.delete(`${baseUrl}/:userId`, (req, res) => {
   try {

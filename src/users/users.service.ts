@@ -18,13 +18,19 @@ export class UsersService {
   }
 
   private generate(size = 100): User[] {
+    const first: User = {
+      id: '4136cd0b-d90b-4af7-b485-5d1ded8db252',
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      age: faker.number.int({ min: 18, max: 65 }),
+    };
     const users: User[] = [...Array(size)].map(() => ({
       id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
       age: faker.number.int({ min: 18, max: 65 }),
     }));
-    return users;
+    return [first, ...users];
   }
 
   create(users: Omit<User, 'id'>): User {

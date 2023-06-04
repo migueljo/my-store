@@ -1,5 +1,4 @@
 import express from 'express';
-import * as Boom from '@hapi/boom';
 
 import { ProductsService } from './products.service.js';
 
@@ -42,7 +41,6 @@ productsRouter.post(baseUrl, async (req, res, next) => {
 });
 
 // TODO: Validate product fields
-// TODO: Create a error middleware to handle errors using Boom
 productsRouter.patch(`${baseUrl}/:id`, async (req, res, next) => {
   try {
     const id = req.params.id;
