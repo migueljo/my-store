@@ -1,9 +1,14 @@
 import { faker } from '@faker-js/faker';
+import { z } from 'zod';
 
-type User = {
-  name: string;
-  id: string;
-};
+export const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  age: z.number().int().min(18).max(65),
+});
+
+export type User = z.infer<typeof UserSchema>;
 
 export class UsersService {
   private users;
@@ -14,10 +19,10 @@ export class UsersService {
 
   private generate(size = 100): User[] {
     const users: User[] = [...Array(size)].map(() => ({
+      id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
       age: faker.number.int({ min: 18, max: 65 }),
-      id: faker.string.uuid(),
     }));
     return users;
   }

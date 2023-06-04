@@ -1,5 +1,7 @@
 import express from 'express';
-import { UsersService } from './users.service.js';
+
+import { UsersService, UserSchema } from './users.service.js';
+import validateBody from '../middleware/validateBody.js';
 
 export const usersRouter = express.Router();
 const baseUrl = '/users';
@@ -28,16 +30,19 @@ usersRouter.get('/users/:userId', (req, res) => {
   }
 });
 
-// TODO: Validate user fields
-usersRouter.post(baseUrl, (req, res) => {
-  try {
-    const user = req.body;
-    const newUser = usersService.create(user);
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ error: true, message: error.message });
-  }
-});
+usersRouter.post(
+  baseUrl,
+  validateBody(UserSchema.omit({ id: true })),
+  (req, res) => {
+    try {
+      const user = req.body;
+      const newUser = usersService.create(user);
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(500).json({ error: true, message: error.message });
+    }
+  },
+);
 
 // TODO: Validate user fields
 usersRouter.patch(`${baseUrl}/:userId`, (req, res) => {
