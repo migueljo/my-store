@@ -3,6 +3,7 @@ import * as Boom from '@hapi/boom';
 import { z } from 'zod';
 
 export const ProductSchema = z.object({
+  blocked: z.boolean().optional(),
   name: z.string(),
   price: z.number().int().min(1),
   image: z.string().url(),
@@ -24,12 +25,14 @@ export class ProductsService {
       price: parseInt(faker.commerce.price(), 10),
       image: faker.image.url(),
       id: '4136cd0b-d90b-4af7-b485-5d1ded8db252',
+      blocked: true,
     };
     const products: Product[] = [...Array(size)].map(() => ({
       name: faker.commerce.productName(),
       price: parseInt(faker.commerce.price(), 10),
       image: faker.image.url(),
       id: faker.string.uuid(),
+      blocked: faker.datatype.boolean(),
     }));
     return [first, ...products];
   }
@@ -46,11 +49,13 @@ export class ProductsService {
     return this.products;
   }
   async findOne(productId: string): Promise<Product | undefined> {
-    const user = this.products.find((product) => product.id === productId);
-    if (!user) {
+    const product = this.products.find((product) => product.id === productId);
+    if (!product) {
       throw Boom.notFound('Product not found');
+    } else if (product.blocked) {
+      throw Boom.forbidden('Product is blocked');
     }
-    return user;
+    return product;
   }
   async update(productId: string, changes: Partial<Product>): Promise<Product> {
     const productToUpdate = await this.findOne(productId);

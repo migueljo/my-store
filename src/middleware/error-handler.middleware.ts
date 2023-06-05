@@ -14,5 +14,7 @@ export default function errorHandler(
     } else {
       res.status(500).json({ error: true, message: error.message });
     }
+  } else {
+    _next();
   }
 }

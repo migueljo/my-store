@@ -15,18 +15,13 @@ productsRouter.get(baseUrl, async (req, res) => {
   res.json(products);
 });
 
-productsRouter.get(`${baseUrl}/filter`, (req, res) => {
-  res.send('Soy filter');
-});
-
-productsRouter.get(`${baseUrl}/:id`, async (req, res) => {
-  const id = req.params.id;
-  const product = await productsService.findOne(id);
-
-  if (product) {
+productsRouter.get(`${baseUrl}/:id`, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const product = await productsService.findOne(id);
     res.json(product);
-  } else {
-    res.status(404).json({ message: 'not found' });
+  } catch (error) {
+    next(error);
   }
 });
 
