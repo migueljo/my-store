@@ -1,15 +1,7 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
-import { z } from 'zod';
 
-export const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string().email(),
-  age: z.number().int().min(18).max(65),
-});
-
-export type User = z.infer<typeof UserSchema>;
+import { User } from './users.schema.js';
 
 export class UsersService {
   private users;

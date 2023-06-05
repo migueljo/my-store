@@ -1,13 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { z } from 'zod';
 import * as Boom from '@hapi/boom';
 
-export const CategorySchema = z.object({
-  name: z.string(),
-  id: z.string(),
-});
-
-export type Category = z.infer<typeof CategorySchema>;
+import { Category } from './categories.schema.js';
 
 export class CategoriesService {
   private categories;

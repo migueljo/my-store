@@ -1,7 +1,8 @@
 import express from 'express';
 
-import { UsersService, UserSchema } from './users.service.js';
 import validateBody from '../middleware/validate-body.middleware.js';
+import { UsersService } from './users.service.js';
+import { UserSchema } from './users.schema.js';
 
 export const usersRouter = express.Router();
 const baseUrl = '/users';

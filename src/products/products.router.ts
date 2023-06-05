@@ -1,7 +1,8 @@
 import express from 'express';
 
-import { ProductSchema, ProductsService } from './products.service.js';
 import validateBody from '../middleware/validate-body.middleware.js';
+import { ProductsService } from './products.service.js';
+import { ProductSchema } from './products.schema.js';
 
 export const productsRouter = express.Router();
 const baseUrl = '/products';

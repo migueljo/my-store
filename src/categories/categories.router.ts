@@ -1,7 +1,8 @@
 import express from 'express';
 
-import { CategoriesService, CategorySchema } from './categories.service.js';
 import validateBody from '../middleware/validate-body.middleware.js';
+import { CategoriesService } from './categories.service.js';
+import { CategorySchema } from './categories.schema.js';
 
 export const categoriesRouter = express.Router();
 const baseUrl = '/categories';

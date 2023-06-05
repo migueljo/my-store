@@ -1,16 +1,7 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
-import { z } from 'zod';
 
-export const ProductSchema = z.object({
-  blocked: z.boolean().optional(),
-  name: z.string(),
-  price: z.number().int().min(1),
-  image: z.string().url(),
-  id: z.string(),
-});
-
-export type Product = z.infer<typeof ProductSchema>;
+import { Product } from './products.schema.js';
 
 export class ProductsService {
   private products;
@@ -53,7 +44,7 @@ export class ProductsService {
     if (!product) {
       throw Boom.notFound('Product not found');
     } else if (product.blocked) {
-      throw Boom.forbidden('Product is blocked');
+      throw Boom.conflict('Product is blocked');
     }
     return product;
   }
