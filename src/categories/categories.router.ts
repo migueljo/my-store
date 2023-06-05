@@ -1,6 +1,6 @@
 import express from 'express';
 
-import validateBody from '../middleware/validate-body.middleware.js';
+import validatorHandler from '../middleware/validator-handler.middleware.js';
 import { CategoriesService } from './categories.service.js';
 import { CategorySchema } from './categories.schema.js';
 
@@ -42,7 +42,7 @@ categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res, next) => {
 
 categoriesRouter.post(
   baseUrl,
-  validateBody(CategorySchema.omit({ id: true })),
+  validatorHandler(CategorySchema.omit({ id: true }), 'body'),
   (req, res, next) => {
     try {
       const body = req.body;
@@ -56,7 +56,7 @@ categoriesRouter.post(
 
 categoriesRouter.patch(
   `${baseUrl}/:categoryId`,
-  validateBody(CategorySchema.omit({ id: true }).partial()),
+  validatorHandler(CategorySchema.omit({ id: true }).partial(), 'body'),
   (req, res, next) => {
     try {
       const { categoryId } = req.params;

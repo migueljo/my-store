@@ -1,6 +1,6 @@
 import express from 'express';
 
-import validateBody from '../middleware/validate-body.middleware.js';
+import validatorHandler from '../middleware/validator-handler.middleware.js';
 import { ProductsService } from './products.service.js';
 import { ProductSchema } from './products.schema.js';
 
@@ -28,7 +28,7 @@ productsRouter.get(`${baseUrl}/:id`, async (req, res, next) => {
 
 productsRouter.post(
   baseUrl,
-  validateBody(ProductSchema.omit({ id: true })),
+  validatorHandler(ProductSchema.omit({ id: true }), 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -42,7 +42,7 @@ productsRouter.post(
 
 productsRouter.patch(
   `${baseUrl}/:id`,
-  validateBody(ProductSchema.omit({ id: true }).partial()),
+  validatorHandler(ProductSchema.omit({ id: true }).partial(), 'body'),
   async (req, res, next) => {
     try {
       const id = req.params.id;

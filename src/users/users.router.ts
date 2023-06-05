@@ -1,6 +1,6 @@
 import express from 'express';
 
-import validateBody from '../middleware/validate-body.middleware.js';
+import validatorHandler from '../middleware/validator-handler.middleware.js';
 import { UsersService } from './users.service.js';
 import { UserSchema } from './users.schema.js';
 
@@ -29,7 +29,7 @@ usersRouter.get('/users/:userId', (req, res, next) => {
 
 usersRouter.post(
   baseUrl,
-  validateBody(UserSchema.omit({ id: true })),
+  validatorHandler(UserSchema.omit({ id: true }), 'body'),
   (req, res, next) => {
     try {
       const user = req.body;
@@ -43,7 +43,7 @@ usersRouter.post(
 
 usersRouter.patch(
   `${baseUrl}/:userId`,
-  validateBody(UserSchema.omit({ id: true }).partial()),
+  validatorHandler(UserSchema.omit({ id: true }).partial(), 'body'),
   (req, res, next) => {
     try {
       const { userId } = req.params;
