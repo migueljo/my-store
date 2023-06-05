@@ -5,7 +5,7 @@ export const ProductSchema = z.object({
   name: z.string(),
   price: z.number().int().min(1),
   image: z.string().url(),
-  id: z.string(),
+  id: z.string().uuid(),
 });
 
 export type Product = z.infer<typeof ProductSchema>;

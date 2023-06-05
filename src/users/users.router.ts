@@ -13,19 +13,23 @@ usersRouter.get(baseUrl, (req, res, next) => {
   res.json(users);
 });
 
-usersRouter.get('/users/:userId', (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    const user = usersService.findOne(userId);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'not found' });
+usersRouter.get(
+  `${baseUrl}/:id`,
+  validatorHandler(UserSchema.pick({ id: true }), 'params'),
+  (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = usersService.findOne(id);
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ message: 'not found' });
+      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
-  }
-});
+  },
+);
 
 usersRouter.post(
   baseUrl,
@@ -42,26 +46,31 @@ usersRouter.post(
 );
 
 usersRouter.patch(
-  `${baseUrl}/:userId`,
+  `${baseUrl}/:id`,
+  validatorHandler(UserSchema.pick({ id: true }), 'params'),
   validatorHandler(UserSchema.omit({ id: true }).partial(), 'body'),
   (req, res, next) => {
     try {
-      const { userId } = req.params;
+      const { id } = req.params;
       const userChanges = req.body;
-      const updated = usersService.update(userId, userChanges);
-      res.json({ message: 'updated', updated });
+      const updatedUser = usersService.update(id, userChanges);
+      res.json(updatedUser);
     } catch (error) {
       next(error);
     }
   },
 );
 
-usersRouter.delete(`${baseUrl}/:userId`, (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    const deleted = usersService.delete(userId);
-    res.json({ message: 'deleted', deleted });
-  } catch (error) {
-    next(error);
-  }
-});
+usersRouter.delete(
+  `${baseUrl}/:id`,
+  validatorHandler(UserSchema.pick({ id: true }), 'params'),
+  (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const deletedUser = usersService.delete(id);
+      res.json(deletedUser);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
