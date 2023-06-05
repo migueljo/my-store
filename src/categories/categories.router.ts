@@ -8,6 +8,7 @@ export const categoriesRouter = express.Router();
 const baseUrl = '/categories';
 const categoryService = new CategoriesService();
 
+// TODO: Validate id is uuid
 categoriesRouter.get(
   `${baseUrl}/:categoryId/products/:productId`,
   (req, res) => {
@@ -26,6 +27,7 @@ categoriesRouter.get(baseUrl, (req, res, next) => {
   }
 });
 
+// TODO: Validate id is uuid
 categoriesRouter.get(`${baseUrl}/:categoryId`, (req, res, next) => {
   try {
     const { categoryId } = req.params;
@@ -54,6 +56,7 @@ categoriesRouter.post(
   },
 );
 
+// TODO: Validate id is uuid
 categoriesRouter.patch(
   `${baseUrl}/:categoryId`,
   validatorHandler(CategorySchema.omit({ id: true }).partial(), 'body'),
@@ -72,6 +75,7 @@ categoriesRouter.patch(
   },
 );
 
+// TODO: Validate id is uuid
 categoriesRouter.delete(`${baseUrl}/:categoryId`, (req, res, next) => {
   try {
     const { categoryId } = req.params;
