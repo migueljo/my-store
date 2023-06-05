@@ -16,15 +16,19 @@ productsRouter.get(baseUrl, async (req, res) => {
   res.json(products);
 });
 
-productsRouter.get(`${baseUrl}/:id`, async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const product = await productsService.findOne(id);
-    res.json(product);
-  } catch (error) {
-    next(error);
-  }
-});
+productsRouter.get(
+  `${baseUrl}/:id`,
+  validatorHandler(ProductSchema.pick({ id: true }), 'params'),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const product = await productsService.findOne(id);
+      res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 productsRouter.post(
   baseUrl,
@@ -42,6 +46,7 @@ productsRouter.post(
 
 productsRouter.patch(
   `${baseUrl}/:id`,
+  validatorHandler(ProductSchema.pick({ id: true }), 'params'),
   validatorHandler(ProductSchema.omit({ id: true }).partial(), 'body'),
   async (req, res, next) => {
     try {
@@ -55,12 +60,16 @@ productsRouter.patch(
   },
 );
 
-productsRouter.delete(`${baseUrl}/:id`, async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const deleted = await productsService.delete(id);
-    res.json({ message: 'deleted', deleted });
-  } catch (error) {
-    next(error);
-  }
-});
+productsRouter.delete(
+  `${baseUrl}/:id`,
+  validatorHandler(ProductSchema.pick({ id: true }), 'params'),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const deleted = await productsService.delete(id);
+      res.json({ message: 'deleted', deleted });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
