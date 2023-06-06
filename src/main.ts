@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
 
 import { routerApi } from './api.js';
 import errorHandler from './middleware/error-handler.middleware.js';
@@ -7,6 +8,7 @@ import errorHandler from './middleware/error-handler.middleware.js';
 const app = express();
 const port = 3005;
 
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 routerApi(app);
 app.use(errorHandler);
