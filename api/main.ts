@@ -17,3 +17,5 @@ routerApi(app);
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// TODO: Deploy to another cloud: Heroku or Google Cloud Platform
