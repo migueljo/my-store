@@ -8,11 +8,8 @@ export const productsRouter = express.Router();
 const baseUrl = '/products';
 const productsService = new ProductsService();
 
-productsRouter.get(baseUrl, async (req, res) => {
-  const { size = 100 } = req.query;
-  const sizeNumber = parseInt(size as string, 10);
+productsRouter.get(baseUrl, async (_req, res) => {
   const products = await productsService.findAll();
-
   res.json(products);
 });
 

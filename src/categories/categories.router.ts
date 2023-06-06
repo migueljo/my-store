@@ -8,7 +8,7 @@ export const categoriesRouter = express.Router();
 const baseUrl = '/categories';
 const categoryService = new CategoriesService();
 
-categoriesRouter.get(baseUrl, (req, res, next) => {
+categoriesRouter.get(baseUrl, (_req, res, next) => {
   try {
     const categories = categoryService.findAll();
     res.json(categories);

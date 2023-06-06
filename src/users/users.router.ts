@@ -8,7 +8,7 @@ export const usersRouter = express.Router();
 const baseUrl = '/users';
 const usersService = new UsersService();
 
-usersRouter.get(baseUrl, (req, res, next) => {
+usersRouter.get(baseUrl, (_req, res) => {
   const users = usersService.findAll();
   res.json(users);
 });
