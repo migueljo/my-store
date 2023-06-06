@@ -24,8 +24,8 @@
     "typescript": "~5.0"
   },
   "scripts": {
-    "dev": "node --watch build/src/main.js",
-    "start": "node build/src/main.js",
+    "dev": "node --watch build/api/main.js",
+    "start": "node build/api/main.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.json",
