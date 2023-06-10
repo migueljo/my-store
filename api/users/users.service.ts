@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
 
+import { getConnection } from '../../libs/postgres.js';
 import { User } from './users.schema.js';
 
 export class UsersService {
@@ -31,8 +32,11 @@ export class UsersService {
     this.users.push(newUser);
     return newUser;
   }
-  findAll(): User[] {
-    return this.users;
+  async findAll(): Promise<User[]> {
+    const client = await getConnection();
+    const response = await client.query('SELECT * FROM tasks');
+    console.log('Res', response.rows);
+    return response.rows;
   }
   findOne(userId: string): User | undefined {
     const user = this.users.find((category) => category.id === userId);
