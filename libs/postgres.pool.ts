@@ -7,7 +7,7 @@ const { Pool } = Postgres;
 
 const password = encodeURIComponent(config.dbPassword);
 const user = encodeURIComponent(config.dbUser);
-const URI = `postgres://${user}:${password}@${config.dbHost}:${config.dbHost}:${config.dbName}`;
+const URI = `postgres://${user}:${password}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
 export const pool: PostgresTypes.Pool = new Pool({
   connectionString: URI,
