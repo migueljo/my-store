@@ -1,14 +1,16 @@
 import Postgres from 'pg';
 import type * as PostgresTypes from 'pg';
 
+import { config } from '../config/config.js';
+
 const { Pool } = Postgres;
 
+const password = encodeURIComponent(config.dbPassword);
+const user = encodeURIComponent(config.dbUser);
+const URI = `postgres://${user}:${password}@${config.dbHost}:${config.dbHost}:${config.dbName}`;
+
 export const pool: PostgresTypes.Pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  user: 'miguel',
-  password: 'miguel123',
-  database: 'my_store',
+  connectionString: URI,
 });
 
 pool.on('error', (err) => {

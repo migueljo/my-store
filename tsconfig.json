@@ -19,5 +19,5 @@
     "noImplicitThis": false,
     "strictNullChecks": false
   },
-  "include": ["src/**/*", "__tests__/**/*", "api/**/*", "libs/**/*"],
+  "include": ["src/**/*", "__tests__/**/*", "api/**/*", "libs/**/*", "config/**/*"],
 }
