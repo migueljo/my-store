@@ -35,7 +35,6 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     const client = await getConnection();
     const response = await client.query('SELECT * FROM tasks');
-    console.log('Res', response.rows);
     return response.rows;
   }
   findOne(userId: string): User | undefined {

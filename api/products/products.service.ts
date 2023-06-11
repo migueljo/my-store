@@ -12,10 +12,6 @@ export class ProductsService {
   constructor() {
     this.products = this.generate();
     this.pool = pool;
-
-    this.pool.on('error', (err, client) => {
-      console.error('Unexpected error on pool', err);
-    });
   }
 
   private generate(size = 100): Product[] {
