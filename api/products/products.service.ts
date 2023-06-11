@@ -2,16 +2,14 @@ import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
 
 import { Product } from './products.schema.js';
-import { pool } from '../../libs/postgres.pool.js';
-import type { Pool } from '../../libs/postgres.pool.js';
+
+import { sequelize } from '../../libs/sequelize.js';
 
 export class ProductsService {
   private products;
-  private pool: Pool;
 
   constructor() {
     this.products = this.generate();
-    this.pool = pool;
   }
 
   private generate(size = 100): Product[] {
@@ -41,11 +39,12 @@ export class ProductsService {
     return newProduct;
   }
   async findAll(): Promise<Product[]> {
+    // TODO: Read this: https://sequelize.org/docs/v6/getting-started/
     // TODO: Use the pool in other services
     // TODO: Should we get a connection a then release it?
     const query = 'SELECT * FROM tasks';
-    const response = await this.pool.query(query);
-    return response.rows;
+    const data = await sequelize.query(query);
+    return data;
   }
   async findOne(productId: string): Promise<Product | undefined> {
     const product = this.products.find((product) => product.id === productId);
