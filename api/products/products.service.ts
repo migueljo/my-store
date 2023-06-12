@@ -39,7 +39,7 @@ export class ProductsService {
     return newProduct;
   }
   async findAll(): Promise<Product[]> {
-    // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-basics/
+    // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-basics/#providing-the-table-name-directly
     // TODO: Use the pool in other services
     // TODO: Should we get a connection a then release it?
     const query = 'SELECT * FROM tasks';
