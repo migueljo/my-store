@@ -40,8 +40,6 @@ export class ProductsService {
   }
   async findAll(): Promise<Product[]> {
     // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
-    // TODO: Use the pool in other services
-    // TODO: Should we get a connection a then release it?
     const query = 'SELECT * FROM tasks';
     const data = await sequelize.query(query);
     return data;
