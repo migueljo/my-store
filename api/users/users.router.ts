@@ -60,10 +60,10 @@ usersRouter.patch(
 usersRouter.delete(
   `${baseUrl}/:id`,
   validatorHandler(UserSchema.pick({ id: true }), 'params'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
       const { id } = req.params;
-      const deletedUser = usersService.delete(id);
+      const deletedUser = await usersService.delete(id);
       res.json(deletedUser);
     } catch (error) {
       next(error);

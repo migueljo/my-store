@@ -60,17 +60,9 @@ export class UsersService {
     return updatedUser.toJSON();
   }
 
-  delete(userId: string): { id: string } {
-    const userToDelete = this.findOne(userId);
-    if (!userToDelete) {
-      throw new Error('User not found');
-    }
-
-    if (userToDelete) {
-      const users = this.users.filter((user) => user.id !== userId);
-      this.users = users;
-    }
-
-    return { id: userId };
+  async delete(userId: string): Promise<User> {
+    const userToDelete = await this.findOne(userId);
+    await userToDelete.destroy();
+    return userToDelete.toJSON();
   }
 }
