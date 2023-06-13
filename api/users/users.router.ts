@@ -34,10 +34,10 @@ usersRouter.get(
 usersRouter.post(
   baseUrl,
   validatorHandler(UserSchema.omit({ id: true }), 'body'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
       const user = req.body;
-      const newUser = usersService.create(user);
+      const newUser = await usersService.create(user);
       res.status(201).json(newUser);
     } catch (error) {
       next(error);

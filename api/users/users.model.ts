@@ -25,11 +25,18 @@ export const UserModelSchema: ModelAttributes = {
     primaryKey: true,
     allowNull: false,
   },
+  name: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
     validate: { isEmail: true },
+  },
+  age: {
+    type: DataTypes.INTEGER,
   },
   password: {
     type: DataTypes.STRING,
