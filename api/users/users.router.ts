@@ -16,15 +16,11 @@ usersRouter.get(baseUrl, async (_req, res) => {
 usersRouter.get(
   `${baseUrl}/:id`,
   validatorHandler(UserSchema.pick({ id: true }), 'params'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = usersService.findOne(id);
-      if (user) {
-        res.json(user);
-      } else {
-        res.status(404).json({ message: 'not found' });
-      }
+      const user = await usersService.findOne(id);
+      res.json(user);
     } catch (error) {
       next(error);
     }

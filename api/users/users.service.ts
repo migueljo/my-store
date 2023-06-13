@@ -46,12 +46,16 @@ export class UsersService {
     return response;
   }
 
-  findOne(userId: string): User | undefined {
-    const user = this.users.find((category) => category.id === userId);
-    if (!user) {
-      throw Boom.notFound('User not found');
+  async findOne(userId: string): Promise<User | Error> {
+    try {
+      const user = await UserModel.findOne({ where: { id: userId } });
+      if (!user) {
+        throw Boom.notFound('User not found');
+      }
+      return user.toJSON();
+    } catch (error) {
+      return Boom.internal(error, 'Could not find user');
     }
-    return user;
   }
 
   update(userId: string, changes: Partial<User>): User {
