@@ -12,6 +12,7 @@ export class UsersService {
   }
 
   private generate(size = 100): User[] {
+    // TODO: Use real DB
     const first: User = {
       id: '4136cd0b-d90b-4af7-b485-5d1ded8db252',
       name: faker.person.fullName(),

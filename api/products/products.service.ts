@@ -13,6 +13,7 @@ export class ProductsService {
   }
 
   private generate(size = 100): Product[] {
+    // TODO: Use real DB
     const first: Product = {
       name: faker.commerce.productName(),
       price: parseInt(faker.commerce.price(), 10),

@@ -11,6 +11,7 @@ export class CategoriesService {
   }
 
   private generate(size = 100): Category[] {
+    // TODO: Use real DB
     const first: Category = {
       name: 'First category',
       id: '9836cd0b-d90b-4af7-b485-5d1ded8db245',
