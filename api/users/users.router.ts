@@ -45,11 +45,11 @@ usersRouter.patch(
   `${baseUrl}/:id`,
   validatorHandler(UserSchema.pick({ id: true }), 'params'),
   validatorHandler(UserSchema.omit({ id: true }).partial(), 'body'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
       const { id } = req.params;
       const userChanges = req.body;
-      const updatedUser = usersService.update(id, userChanges);
+      const updatedUser = await usersService.update(id, userChanges);
       res.json(updatedUser);
     } catch (error) {
       next(error);

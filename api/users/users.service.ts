@@ -46,36 +46,18 @@ export class UsersService {
     return response;
   }
 
-  async findOne(userId: string): Promise<User | Error> {
-    try {
-      const user = await UserModel.findOne({ where: { id: userId } });
-      if (!user) {
-        throw Boom.notFound('User not found');
-      }
-      return user.toJSON();
-    } catch (error) {
-      return Boom.internal(error, 'Could not find user');
+  async findOne(userId: string): Promise<UserModel> {
+    const user = await UserModel.findOne({ where: { id: userId } });
+    if (!user) {
+      throw Boom.notFound('User not found');
     }
+    return user;
   }
 
-  update(userId: string, changes: Partial<User>): User {
-    const userToUpdate = this.findOne(userId);
-    if (!userToUpdate) {
-      throw new Error('User not found');
-    }
-    if (userToUpdate) {
-      const users = this.users.map((users) => {
-        if (users.id === userId) {
-          return {
-            ...users,
-            ...changes,
-          };
-        }
-        return users;
-      });
-      this.users = users;
-    }
-    return this.users.find((user) => user.id === userId);
+  async update(userId: string, changes: Partial<User>): Promise<User | Error> {
+    const userToUpdate = await this.findOne(userId);
+    const updatedUser = await userToUpdate.update(changes);
+    return updatedUser.toJSON();
   }
 
   delete(userId: string): { id: string } {
