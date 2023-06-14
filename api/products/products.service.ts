@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
 import { v4 as uuid } from 'uuid';
 
@@ -7,31 +6,6 @@ import { Product } from './products.schema.js';
 import { ProductModel } from './products.model.js';
 
 export class ProductsService {
-  private products;
-
-  constructor() {
-    this.products = this.generate();
-  }
-
-  private generate(size = 100): Product[] {
-    // TODO: Use real DB
-    const first: Product = {
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.url(),
-      id: '4136cd0b-d90b-4af7-b485-5d1ded8db252',
-      blocked: true,
-    };
-    const products: Product[] = [...Array(size)].map(() => ({
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.url(),
-      id: faker.string.uuid(),
-      blocked: faker.datatype.boolean(),
-    }));
-    return [first, ...products];
-  }
-
   async create(product: Omit<Product, 'id'>): Promise<Product> {
     const newProduct = await ProductModel.create({
       ...product,
