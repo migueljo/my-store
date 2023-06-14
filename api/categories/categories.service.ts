@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
+import { v4 as uuid } from 'uuid';
 
 import { Category } from './categories.schema.js';
+import { CategoryModel } from './categories.model.js';
 
 export class CategoriesService {
   private categories;
@@ -23,18 +25,20 @@ export class CategoriesService {
     return [first, ...categories];
   }
 
-  create(category: Omit<Category, 'id'>): Category {
-    const newCategory = {
+  async create(category: Omit<Category, 'id'>): Promise<Category> {
+    const categoryCreated = await CategoryModel.create({
       ...category,
-      id: faker.string.uuid(),
-    };
-    this.categories.push(newCategory);
-    return newCategory;
+      id: uuid(),
+    });
+    return categoryCreated.toJSON();
   }
-  findAll(): Category[] {
-    return this.categories;
+
+  async findAll(): Promise<Category[]> {
+    const categories = await CategoryModel.findAll();
+    return categories.map((c) => c.toJSON());
   }
-  findOne(categroyId: string): Category | undefined {
+
+  async findOne(categroyId: string): Promise<Category | undefined> {
     const category = this.categories.find(
       (category) => category.id === categroyId,
     );
@@ -43,7 +47,11 @@ export class CategoriesService {
     }
     return category;
   }
-  update(categoryId: string, changes: Partial<Category>): Category {
+
+  async update(
+    categoryId: string,
+    changes: Partial<Category>,
+  ): Promise<Category> {
     const categoryToUpdate = this.findOne(categoryId);
     if (!categoryToUpdate) {
       throw Boom.notFound('Category not found');
@@ -64,7 +72,7 @@ export class CategoriesService {
 
     return this.categories.find((category) => category.id === categoryId);
   }
-  delete(categoryId: string): { id: string } {
+  async delete(categoryId: string): Promise<{ id: string }> {
     const categoryToDelete = this.findOne(categoryId);
     if (!categoryToDelete) {
       throw Boom.notFound('Category not found');
