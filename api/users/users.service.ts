@@ -26,7 +26,7 @@ export class UsersService {
     return user;
   }
 
-  async update(userId: string, changes: Partial<User>): Promise<User | Error> {
+  async update(userId: string, changes: Partial<User>): Promise<User> {
     const userToUpdate = await this.findOne(userId);
     const updatedUser = await userToUpdate.update(changes);
     return updatedUser.toJSON();

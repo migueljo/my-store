@@ -44,11 +44,10 @@ export class ProductsService {
   async findAll(): Promise<Product[]> {
     // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
     const products = await ProductModel.findAll();
-    console.log('Hello');
     return products.map((product) => product.toJSON());
   }
 
-  async findOne(productId: string): Promise<Product | undefined> {
+  async findOne(productId: string): Promise<ProductModel | undefined> {
     const product = await ProductModel.findOne({ where: { id: productId } });
     const productJSON = product?.toJSON();
 
@@ -57,29 +56,13 @@ export class ProductsService {
     } else if (productJSON.blocked) {
       throw Boom.conflict('Product is blocked');
     }
-    return productJSON;
+    return product;
   }
 
   async update(productId: string, changes: Partial<Product>): Promise<Product> {
     const productToUpdate = await this.findOne(productId);
-    if (!productToUpdate) {
-      throw Boom.notFound('Product not found');
-    }
-
-    if (productToUpdate) {
-      const products = this.products.map((product) => {
-        if (product.id === productId) {
-          return {
-            ...product,
-            ...changes,
-          };
-        }
-        return product;
-      });
-      this.products = products;
-    }
-
-    return this.products.find((product) => product.id === productId);
+    const productUpdated = await productToUpdate.update(changes);
+    return productUpdated.toJSON();
   }
 
   async delete(productId: string): Promise<{ id: string }> {
