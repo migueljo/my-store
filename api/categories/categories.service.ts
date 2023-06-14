@@ -54,18 +54,11 @@ export class CategoriesService {
     const updatedCategory = await categoryToUpdate.update(changes);
     return updatedCategory.toJSON();
   }
-  async delete(categoryId: string): Promise<{ id: string }> {
-    const categoryToDelete = this.findOne(categoryId);
-    if (!categoryToDelete) {
-      throw Boom.notFound('Category not found');
-    }
 
-    if (categoryToDelete) {
-      const categories = this.categories.filter(
-        (category) => category.id !== categoryId,
-      );
-      this.categories = categories;
-    }
-    return { id: categoryId };
+  async delete(categoryId: string): Promise<Category> {
+    const categoryToDelete = await this.findOne(categoryId);
+    await categoryToDelete.destroy();
+
+    return categoryToDelete.toJSON();
   }
 }
