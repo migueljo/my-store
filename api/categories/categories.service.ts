@@ -50,25 +50,9 @@ export class CategoriesService {
     categoryId: string,
     changes: Partial<Category>,
   ): Promise<Category> {
-    const categoryToUpdate = this.findOne(categoryId);
-    if (!categoryToUpdate) {
-      throw Boom.notFound('Category not found');
-    }
-
-    if (categoryToUpdate) {
-      const categories = this.categories.map((category) => {
-        if (category.id === categoryId) {
-          return {
-            ...category,
-            ...changes,
-          };
-        }
-        return category;
-      });
-      this.categories = categories;
-    }
-
-    return this.categories.find((category) => category.id === categoryId);
+    const categoryToUpdate = await this.findOne(categoryId);
+    const updatedCategory = await categoryToUpdate.update(changes);
+    return updatedCategory.toJSON();
   }
   async delete(categoryId: string): Promise<{ id: string }> {
     const categoryToDelete = this.findOne(categoryId);
