@@ -38,10 +38,8 @@ export class CategoriesService {
     return categories.map((c) => c.toJSON());
   }
 
-  async findOne(categroyId: string): Promise<Category | undefined> {
-    const category = this.categories.find(
-      (category) => category.id === categroyId,
-    );
+  async findOne(categoryId: string): Promise<CategoryModel> {
+    const category = await CategoryModel.findOne({ where: { id: categoryId } });
     if (!category) {
       throw Boom.notFound('Category not found');
     }
