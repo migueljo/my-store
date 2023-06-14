@@ -8,9 +8,13 @@ export const productsRouter = express.Router();
 const baseUrl = '/products';
 const productsService = new ProductsService();
 
-productsRouter.get(baseUrl, async (_req, res) => {
-  const products = await productsService.findAll();
-  res.json(products);
+productsRouter.get(baseUrl, async (_req, res, next) => {
+  try {
+    const products = await productsService.findAll();
+    res.json(products);
+  } catch (error) {
+    next(error);
+  }
 });
 
 productsRouter.get(

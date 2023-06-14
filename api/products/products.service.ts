@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 import * as Boom from '@hapi/boom';
+import { v4 as uuid } from 'uuid';
 
 import { Product } from './products.schema.js';
 
 import { sequelize } from '../../libs/sequelize.js';
+import { ProductModel } from './products.model.js';
 
 export class ProductsService {
   private products;
@@ -32,18 +34,17 @@ export class ProductsService {
   }
 
   async create(product: Omit<Product, 'id'>): Promise<Product> {
-    const newProduct = {
+    const newProduct = await ProductModel.create({
       ...product,
-      id: faker.string.uuid(),
-    };
-    this.products.push(newProduct);
-    return newProduct;
+      id: uuid(),
+    });
+
+    return newProduct.toJSON();
   }
   async findAll(): Promise<Product[]> {
     // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
-    const query = 'SELECT * FROM tasks';
-    const data = await sequelize.query(query);
-    return data;
+    const products = await ProductModel.findAll();
+    return products.map((product) => product.toJSON());
   }
   async findOne(productId: string): Promise<Product | undefined> {
     const product = this.products.find((product) => product.id === productId);
