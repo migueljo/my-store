@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 
 import { Product } from './products.schema.js';
 
-import { sequelize } from '../../libs/sequelize.js';
 import { ProductModel } from './products.model.js';
 
 export class ProductsService {
@@ -41,20 +40,26 @@ export class ProductsService {
 
     return newProduct.toJSON();
   }
+
   async findAll(): Promise<Product[]> {
     // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
     const products = await ProductModel.findAll();
+    console.log('Hello');
     return products.map((product) => product.toJSON());
   }
+
   async findOne(productId: string): Promise<Product | undefined> {
-    const product = this.products.find((product) => product.id === productId);
-    if (!product) {
+    const product = await ProductModel.findOne({ where: { id: productId } });
+    const productJSON = product?.toJSON();
+
+    if (!productJSON) {
       throw Boom.notFound('Product not found');
-    } else if (product.blocked) {
+    } else if (productJSON.blocked) {
       throw Boom.conflict('Product is blocked');
     }
-    return product;
+    return productJSON;
   }
+
   async update(productId: string, changes: Partial<Product>): Promise<Product> {
     const productToUpdate = await this.findOne(productId);
     if (!productToUpdate) {
@@ -76,6 +81,7 @@ export class ProductsService {
 
     return this.products.find((product) => product.id === productId);
   }
+
   async delete(productId: string): Promise<{ id: string }> {
     const productToDelete = await this.findOne(productId);
     if (!productToDelete) {
