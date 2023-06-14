@@ -65,17 +65,9 @@ export class ProductsService {
     return productUpdated.toJSON();
   }
 
-  async delete(productId: string): Promise<{ id: string }> {
+  async delete(productId: string): Promise<Product> {
     const productToDelete = await this.findOne(productId);
-    if (!productToDelete) {
-      throw new Error('Product not found');
-    }
-    if (productToDelete) {
-      const products = this.products.filter(
-        (product) => product.id !== productId,
-      );
-      this.products = products;
-    }
-    return { id: productId };
+    await productToDelete.destroy();
+    return productToDelete.toJSON();
   }
 }
