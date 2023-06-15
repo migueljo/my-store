@@ -29,3 +29,6 @@ build/
 .DS_Store
 
 postgres-data
+mysql_data
+
+.env
