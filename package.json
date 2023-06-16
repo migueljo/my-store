@@ -4,7 +4,7 @@
   "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
   "type": "module",
   "engines": {
-    "node": ">= 18.12 <19"
+    "node": ">= 18.12 <= 20"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
@@ -20,6 +20,7 @@
     "jest": "~29.5",
     "prettier": "~2.8",
     "rimraf": "~5.0",
+    "sequelize-cli": "^6.6.1",
     "ts-api-utils": "~0.0.44",
     "ts-jest": "~29.1",
     "typescript": "~5.0"
