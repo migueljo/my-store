@@ -16,8 +16,8 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    // TODO: Read this: https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
-    // TODO: Read this https://docs.volta.sh/guide/
+    // TODO: Read this https://sequelize.org/docs/v6/other-topics/transactions/
+
     const products = await ProductModel.findAll();
     return products.map((product) => product.toJSON());
   }
