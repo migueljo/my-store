@@ -19,5 +19,5 @@
     "noImplicitThis": false,
     "strictNullChecks": false
   },
-  "include": ["src/**/*", "__tests__/**/*", "api/**/*", "libs/**/*", "config/**/*", "db/**/*"],
+  "include": ["src/**/*", "__tests__/**/*", "api/**/*", "libs/**/*", "config/**/*", "db/**/*", "db/migrator.ts", "20230617025216-create-user.ts"],
 }
