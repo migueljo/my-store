@@ -5,6 +5,7 @@ import { User } from './users.schema.js';
 import { UserModel } from './users.model.js';
 
 export class UsersService {
+  // TODO: Return a meaningful error message if the user already exists
   async create(user: Omit<User, 'id'>): Promise<User | Error> {
     const createdUser = await UserModel.create({
       ...user,

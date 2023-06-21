@@ -18,16 +18,17 @@
     "test": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write .",
     "test:watch": "jest --watch",
-    "migration": "tsx ./db/migrator.ts",
-    "migrations:generate": "npm run  migration -- create --name",
-    "migration:run": "npm run migration -- up",
-    "migration:revert": "npm run migration -- down",
-    "migration:clean": "npm run migration -- down --to 0"
+    "migrator": "tsx ./db/migrator.ts",
+    "migrations:generate": "npm run  migrator -- create --name",
+    "migrations:run": "npm run migrator -- up",
+    "migrations:revert": "npm run migrator -- down",
+    "migrations:clean": "npm run migrator -- down --to 0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
     "@types/cors": "^2.8.13",
     "@types/jest": "~29.5",
+    "@types/lodash": "^4.14.195",
     "@types/node": "~18",
     "@types/pg": "^8.10.2",
     "@typescript-eslint/eslint-plugin": "~5.59",

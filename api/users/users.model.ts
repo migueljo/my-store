@@ -13,8 +13,7 @@ export class UserModel extends Model {
       sequelize,
       tableName: USER_TABLE,
       modelName: USER_MODEL_NAME,
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+      timestamps: false,
     };
   }
 }
@@ -41,5 +40,15 @@ export const UserModelSchema: ModelAttributes = {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    field: 'created_at',
   },
 };
