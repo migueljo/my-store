@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
 import { config } from '../config/config.js';
-import { setupModels } from './setup-models.js';
+import { setupModels } from '../db/setup-models.js';
 
 const password = encodeURIComponent(config.dbPassword);
 const user = encodeURIComponent(config.dbUser);
