@@ -17,8 +17,6 @@ export class ProductsService {
 
   async findAll(): Promise<Product[]> {
     // TODO: Read this https://sequelize.org/docs/v6/other-topics/transactions/
-    // TODO: Read this https://sequelize.org/docs/v6/other-topics/migrations/#installing-the-cli
-
     const products = await ProductModel.findAll();
     return products.map((product) => product.toJSON());
   }

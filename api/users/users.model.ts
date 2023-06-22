@@ -5,7 +5,7 @@ export const USER_MODEL_NAME = 'User';
 export const USER_TABLE = 'users';
 
 export class UserModel extends Model {
-  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#creating-the-standard-relationships
+  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
   static associate(models: any) {
     // define association here
   }
