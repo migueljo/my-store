@@ -5,11 +5,7 @@ import type { CustomerType } from './customers.schema.js';
 import { CustomerModel } from './customers.model.js';
 
 export class CustomersService {
-  // TODO: Return a meaningful error message if the customer already exists
-  // TODO: This is special?
-  async create(
-    customer: Omit<CustomerType, 'id'>,
-  ): Promise<CustomerType | Error> {
+  async create(customer: Omit<CustomerType, 'id'>): Promise<CustomerType> {
     const createdCustomer = await CustomerModel.create({
       ...customer,
       id: uuid(),
