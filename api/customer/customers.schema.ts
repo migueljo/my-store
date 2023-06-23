@@ -5,7 +5,6 @@ export const CustomerSchema = z.object({
   name: z.string(),
   lastName: z.string(),
   phone: z.string(),
-  createdAt: z.date(),
   userId: z.string().uuid(),
 });
 
