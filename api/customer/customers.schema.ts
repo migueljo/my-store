@@ -6,6 +6,7 @@ export const CustomerSchema = z.object({
   lastName: z.string(),
   phone: z.string(),
   createdAt: z.date(),
+  userId: z.string().uuid(),
 });
 
 export type CustomerType = z.infer<typeof CustomerSchema>;
