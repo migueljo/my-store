@@ -2,7 +2,7 @@ import { Model, Sequelize, DataTypes } from 'sequelize';
 import type { InitOptions, ModelAttributes } from 'sequelize';
 
 export const USER_MODEL_NAME = 'User';
-export const USER_TABLE = 'users';
+export const USER_TABLE_NAME = 'users';
 
 export class UserModel extends Model {
   // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
@@ -12,7 +12,7 @@ export class UserModel extends Model {
   static config(sequelize: Sequelize): InitOptions {
     return {
       sequelize,
-      tableName: USER_TABLE,
+      tableName: USER_TABLE_NAME,
       modelName: USER_MODEL_NAME,
       timestamps: false,
     };
