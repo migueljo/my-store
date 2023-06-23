@@ -19,5 +19,5 @@ export function setupModels(sequelize: Sequelize): void {
   CategoryModel.init(CategoryModelSchema, CategoryModel.config(sequelize));
   CustomerModel.init(CustomerModelSchema, CustomerModel.config(sequelize));
 
-  CustomerModel.associate(sequelize.models);
+  CustomerModel.associate();
 }

@@ -1,23 +1,18 @@
 import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
 import { Model, DataTypes } from 'sequelize';
-import type { ModelStatic, Model as ModelType } from 'sequelize';
 
-import { USER_TABLE_NAME } from '../users/users.model.js';
+import { USER_TABLE_NAME, UserModel } from '../users/users.model.js';
 
-export const CUSTOMER_TABLE = 'customers';
-
-type Models = {
-  [key: string]: ModelStatic<ModelType<any, any>>;
-};
+export const CUSTOMER_TABLE_NAME = 'customers';
 
 export class CustomerModel extends Model {
-  static associate(models: Models): void {
-    this.belongsTo(models.UserModel, { as: 'user' });
+  static associate(): void {
+    CustomerModel.belongsTo(UserModel, { as: 'user' });
   }
   static config(sequelize: Sequelize): InitOptions {
     return {
       sequelize,
-      tableName: CUSTOMER_TABLE,
+      tableName: CUSTOMER_TABLE_NAME,
       modelName: 'Customer',
       timestamps: false,
     };
