@@ -2,7 +2,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import type { InitOptions, ModelAttributes } from 'sequelize';
 
 export const CATEGORY_MODEL_NAME = 'Category';
-export const CATEGORY_TABLE = 'categories';
+export const CATEGORY_TABLE_NAME = 'categories';
 
 export const CategoryModelSchema: ModelAttributes = {
   id: {
@@ -27,7 +27,7 @@ export class CategoryModel extends Model {
   static config(sequelize: Sequelize): InitOptions {
     return {
       sequelize,
-      tableName: CATEGORY_TABLE,
+      tableName: CATEGORY_TABLE_NAME,
       modelName: CATEGORY_MODEL_NAME,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
