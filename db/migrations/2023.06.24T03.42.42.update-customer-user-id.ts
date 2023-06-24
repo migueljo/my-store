@@ -15,9 +15,7 @@ export const up: MigrationFn<QueryInterface> = async ({
       model: USER_TABLE_NAME,
       key: 'id',
     },
-    // If user id is updated, update user id here
     onUpdate: 'CASCADE',
-    // If user is deleted, set user id to null
     onDelete: 'SET NULL',
   });
 };
@@ -34,9 +32,7 @@ export const down: MigrationFn<QueryInterface> = async ({
       model: USER_TABLE_NAME,
       key: 'id',
     },
-    // If user id is updated, update user id here
     onUpdate: 'CASCADE',
-    // If user is deleted, set user id to null
     onDelete: 'SET NULL',
   });
 };
