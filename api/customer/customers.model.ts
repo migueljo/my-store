@@ -47,8 +47,9 @@ export const CustomerModelSchema: ModelAttributes = {
   userId: {
     type: DataTypes.UUID,
     allowNull: false,
+    unique: true,
     field: 'user_id',
-    // User foraign key
+    // User foreign key
     references: {
       model: USER_TABLE_NAME,
       key: 'id',
