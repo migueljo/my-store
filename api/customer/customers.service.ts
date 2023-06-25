@@ -3,16 +3,15 @@ import { v4 as uuid } from 'uuid';
 
 import type { CustomerType } from './customers.schema.js';
 import { CustomerModel } from './customers.model.js';
-import { UserModel } from '../users/users.model.js';
 
 export class CustomersService {
   async create(customer: Omit<CustomerType, 'id'>): Promise<CustomerType> {
-    const userAlreadyHasCustomer = await UserModel.findOne({
-      where: { id: customer.userId },
+    const userAlreadyHasCustomer = await CustomerModel.findOne({
+      where: { userId: customer.userId },
     });
 
     if (userAlreadyHasCustomer) {
-      throw Boom.conflict('User already has a customer');
+      throw Boom.conflict(`User ${customer.userId} already has a customer`);
     }
 
     const createdCustomer = await CustomerModel.create({
@@ -23,7 +22,9 @@ export class CustomersService {
   }
 
   async findAll(): Promise<CustomerModel[]> {
-    const response = await CustomerModel.findAll();
+    const response = await CustomerModel.findAll({
+      include: ['user'],
+    });
     return response;
   }
 

@@ -22,7 +22,9 @@ export class UsersService {
   }
 
   async findAll(): Promise<UserModel[]> {
-    const response = await UserModel.findAll();
+    const response = await UserModel.findAll({
+      include: ['customer'],
+    });
     return response;
   }
 

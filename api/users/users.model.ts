@@ -1,14 +1,21 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 import type { InitOptions, ModelAttributes } from 'sequelize';
 
+import { sequelize } from '../../libs/sequelize.js';
+
 export const USER_MODEL_NAME = 'User';
 export const USER_TABLE_NAME = 'users';
 
 export class UserModel extends Model {
   // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
-  static associate(models: any) {
-    // define association here
+  static associate() {
+    // Has one creates the foreign key in the target model (Customer in this case)
+    UserModel.hasOne(sequelize.models.Customer, {
+      as: 'customer',
+      foreignKey: 'userId',
+    });
   }
+
   static config(sequelize: Sequelize): InitOptions {
     return {
       sequelize,

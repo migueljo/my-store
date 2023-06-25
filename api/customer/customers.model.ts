@@ -1,13 +1,14 @@
 import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
 import { Model, DataTypes } from 'sequelize';
 
-import { USER_TABLE_NAME, UserModel } from '../users/users.model.js';
+import { USER_TABLE_NAME } from '../users/users.model.js';
+import { sequelize } from '../../libs/sequelize.js';
 
 export const CUSTOMER_TABLE_NAME = 'customers';
 
 export class CustomerModel extends Model {
   static associate(): void {
-    CustomerModel.belongsTo(UserModel, { as: 'user' });
+    CustomerModel.belongsTo(sequelize.models.User, { as: 'user' });
   }
   static config(sequelize: Sequelize): InitOptions {
     return {
@@ -46,7 +47,7 @@ export const CustomerModelSchema: ModelAttributes = {
   },
   userId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
     unique: true,
     field: 'user_id',
     // User foreign key
