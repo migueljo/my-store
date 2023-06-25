@@ -11,12 +11,19 @@ export const CategoryModelSchema: ModelAttributes = {
     allowNull: false,
   },
   name: {
-    type: DataTypes.STRING(128),
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  image: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    field: 'created_at',
+    defaultValue: DataTypes.NOW,
   },
 };
 
