@@ -3,10 +3,18 @@ import { v4 as uuid } from 'uuid';
 
 import type { CustomerType } from './customers.schema.js';
 import { CustomerModel } from './customers.model.js';
+import { UserModel } from '../users/users.model.js';
 
 export class CustomersService {
   async create(customer: Omit<CustomerType, 'id'>): Promise<CustomerType> {
-    // TODO: Validate that userId exists
+    const userAlreadyHasCustomer = await UserModel.findOne({
+      where: { id: customer.userId },
+    });
+
+    if (userAlreadyHasCustomer) {
+      throw Boom.conflict('User already has a customer');
+    }
+
     const createdCustomer = await CustomerModel.create({
       ...customer,
       id: uuid(),
