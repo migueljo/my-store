@@ -6,6 +6,7 @@ import { CustomerModel } from './customers.model.js';
 
 export class CustomersService {
   async create(customer: Omit<CustomerType, 'id'>): Promise<CustomerType> {
+    // TODO: Validate that userId exists
     const createdCustomer = await CustomerModel.create({
       ...customer,
       id: uuid(),
