@@ -1,5 +1,6 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import type { InitOptions, ModelAttributes } from 'sequelize';
+import { sequelize } from '../../libs/sequelize.js';
 
 export const CATEGORY_MODEL_NAME = 'Category';
 export const CATEGORY_TABLE_NAME = 'categories';
@@ -28,10 +29,15 @@ export const CategoryModelSchema: ModelAttributes = {
 };
 
 export class CategoryModel extends Model {
-  static associate(models: any) {
-    // define association here
+  static associate(): void {
+    this.hasMany(sequelize.models.Product, {
+      // Field category key in the Product table
+      foreignKey: 'categoryId',
+      as: 'product',
+    });
   }
-  static config(sequelize: Sequelize): InitOptions {
+
+  static config(): InitOptions {
     return {
       sequelize,
       tableName: CATEGORY_TABLE_NAME,

@@ -6,17 +6,21 @@ import { sequelize } from '../../libs/sequelize.js';
 export const USER_MODEL_NAME = 'User';
 export const USER_TABLE_NAME = 'users';
 
+console.log('Hello from users.model.ts');
+
 export class UserModel extends Model {
   // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
-  static associate() {
+  static associate(): void {
     // Has one creates the foreign key in the target model (Customer in this case)
-    UserModel.hasOne(sequelize.models.Customer, {
+    console.log('UserModel.associate()');
+    this.hasOne(sequelize.models.Customer, {
       as: 'customer',
       foreignKey: 'userId',
     });
+    console.log('UserModel.associate() - after hasOne');
   }
 
-  static config(sequelize: Sequelize): InitOptions {
+  static config(): InitOptions {
     return {
       sequelize,
       tableName: USER_TABLE_NAME,

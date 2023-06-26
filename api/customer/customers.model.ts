@@ -1,16 +1,17 @@
-import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
+import type { InitOptions, ModelAttributes } from 'sequelize';
 import { Model, DataTypes } from 'sequelize';
 
-import { USER_TABLE_NAME } from '../users/users.model.js';
 import { sequelize } from '../../libs/sequelize.js';
 
 export const CUSTOMER_TABLE_NAME = 'customers';
 
+console.log('Hello from customers.model.ts');
+
 export class CustomerModel extends Model {
   static associate(): void {
-    CustomerModel.belongsTo(sequelize.models.User, { as: 'user' });
+    this.belongsTo(sequelize.models.User, { as: 'user' });
   }
-  static config(sequelize: Sequelize): InitOptions {
+  static config(): InitOptions {
     return {
       sequelize,
       tableName: CUSTOMER_TABLE_NAME,
@@ -52,7 +53,7 @@ export const CustomerModelSchema: ModelAttributes = {
     field: 'user_id',
     // User foreign key
     references: {
-      model: USER_TABLE_NAME,
+      model: 'users',
       key: 'id',
     },
     // If user id is updated, update user id here

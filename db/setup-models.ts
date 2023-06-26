@@ -1,4 +1,3 @@
-import { Sequelize } from 'sequelize';
 import { UserModel, UserModelSchema } from '../api/users/users.model.js';
 import {
   ProductModel,
@@ -13,12 +12,21 @@ import {
   CustomerModelSchema,
 } from '../api/customer/customers.model.js';
 
-export function setupModels(sequelize: Sequelize): void {
-  UserModel.init(UserModelSchema, UserModel.config(sequelize));
-  ProductModel.init(ProductModelSchema, ProductModel.config(sequelize));
-  CategoryModel.init(CategoryModelSchema, CategoryModel.config(sequelize));
-  CustomerModel.init(CustomerModelSchema, CustomerModel.config(sequelize));
+export function setupModels(): void {
+  console.log('setupModels() - before init');
+  UserModel.init(UserModelSchema, UserModel.config());
+  console.log('setupModels() - after init UserModel');
+  CustomerModel.init(CustomerModelSchema, CustomerModel.config());
+  console.log('setupModels() - after init CustomerModel');
+  ProductModel.init(ProductModelSchema, ProductModel.config());
+  console.log('setupModels() - after init ProductModel');
+  CategoryModel.init(CategoryModelSchema, CategoryModel.config());
+  console.log('setupModels() - after init CategoryModel');
 
   CustomerModel.associate();
   UserModel.associate();
+  ProductModel.associate();
+  CategoryModel.associate();
+
+  console.log('setupModels() - after init');
 }
