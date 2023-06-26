@@ -19,6 +19,6 @@ export const up: MigrationFn<QueryInterface> = async ({
 export const down: MigrationFn<QueryInterface> = async ({
   context: queryInterface,
 }) => {
-  await queryInterface.dropTable(CATEGORY_TABLE_NAME);
   await queryInterface.dropTable(PRODUCT_TABLE_NAME);
+  await queryInterface.dropTable(CATEGORY_TABLE_NAME);
 };
