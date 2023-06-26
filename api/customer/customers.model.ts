@@ -1,25 +1,9 @@
-import type { InitOptions, ModelAttributes } from 'sequelize';
+import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
 import { Model, DataTypes } from 'sequelize';
-
-import { sequelize } from '../../libs/sequelize.js';
 
 export const CUSTOMER_TABLE_NAME = 'customers';
 
 console.log('Hello from customers.model.ts');
-
-export class CustomerModel extends Model {
-  static associate(): void {
-    this.belongsTo(sequelize.models.User, { as: 'user' });
-  }
-  static config(): InitOptions {
-    return {
-      sequelize,
-      tableName: CUSTOMER_TABLE_NAME,
-      modelName: 'Customer',
-      timestamps: false,
-    };
-  }
-}
 
 export const CustomerModelSchema: ModelAttributes = {
   id: {
@@ -62,3 +46,17 @@ export const CustomerModelSchema: ModelAttributes = {
     onDelete: 'SET NULL',
   },
 };
+
+export class CustomerModel extends Model {
+  static associate(sequelize: Sequelize): void {
+    this.belongsTo(sequelize.models.User, { as: 'user' });
+  }
+  static config(sequelize: Sequelize): InitOptions {
+    return {
+      sequelize,
+      tableName: CUSTOMER_TABLE_NAME,
+      modelName: 'Customer',
+      timestamps: false,
+    };
+  }
+}

@@ -1,34 +1,8 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
-import type { InitOptions, ModelAttributes } from 'sequelize';
-
-import { sequelize } from '../../libs/sequelize.js';
+import { Model, DataTypes } from 'sequelize';
+import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
 
 export const USER_MODEL_NAME = 'User';
 export const USER_TABLE_NAME = 'users';
-
-console.log('Hello from users.model.ts');
-
-export class UserModel extends Model {
-  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
-  static associate(): void {
-    // Has one creates the foreign key in the target model (Customer in this case)
-    console.log('UserModel.associate()');
-    this.hasOne(sequelize.models.Customer, {
-      as: 'customer',
-      foreignKey: 'userId',
-    });
-    console.log('UserModel.associate() - after hasOne');
-  }
-
-  static config(): InitOptions {
-    return {
-      sequelize,
-      tableName: USER_TABLE_NAME,
-      modelName: USER_MODEL_NAME,
-      timestamps: false,
-    };
-  }
-}
 
 export const UserModelSchema: ModelAttributes = {
   id: {
@@ -37,7 +11,7 @@ export const UserModelSchema: ModelAttributes = {
     allowNull: false,
   },
   name: {
-    type: DataTypes.STRING(128),
+    type: DataTypes.STRING,
     allowNull: false,
   },
   email: {
@@ -60,7 +34,27 @@ export const UserModelSchema: ModelAttributes = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: DataTypes.NOW,
     field: 'created_at',
   },
 };
+
+export class UserModel extends Model {
+  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
+  static associate(sequelize: Sequelize): void {
+    // Has one creates the foreign key in the target model (Customer in this case)
+    this.hasOne(sequelize.models.Customer, {
+      as: 'customer',
+      foreignKey: 'userId',
+    });
+  }
+
+  static config(sequelize: Sequelize): InitOptions {
+    return {
+      sequelize,
+      tableName: USER_TABLE_NAME,
+      modelName: USER_MODEL_NAME,
+      timestamps: false,
+    };
+  }
+}

@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import type { InitOptions, ModelAttributes, Sequelize } from 'sequelize';
 import { CATEGORY_TABLE_NAME } from '../categories/categories.model.js';
-import { sequelize } from '../../libs/sequelize.js';
 
 export const PRODUCT_MODEL_NAME = 'Product';
 export const PRODUCT_TABLE_NAME = 'products';
@@ -48,13 +47,13 @@ export const ProductModelSchema: ModelAttributes = {
 };
 
 export class ProductModel extends Model {
-  static associate(): void {
+  static associate(sequelize: Sequelize): void {
     this.belongsTo(sequelize.models.Category, {
       as: 'category',
     });
   }
 
-  static config(): InitOptions {
+  static config(sequelize: Sequelize): InitOptions {
     return {
       sequelize,
       tableName: PRODUCT_TABLE_NAME,

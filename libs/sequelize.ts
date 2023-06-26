@@ -12,4 +12,4 @@ export const sequelize = new Sequelize(URI, {
   dialect: 'postgres',
 });
 
-setupModels();
+setupModels(sequelize);
