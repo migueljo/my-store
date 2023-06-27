@@ -32,7 +32,7 @@ export class CategoryModel extends Model {
     this.hasMany(sequelize.models.Product, {
       // Field category key in the Product table
       foreignKey: 'categoryId',
-      as: 'product',
+      as: 'products',
     });
   }
 

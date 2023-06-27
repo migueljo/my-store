@@ -21,7 +21,7 @@ export class CategoriesService {
   async findOne(categoryId: string): Promise<CategoryModel> {
     const category = await CategoryModel.findOne({
       where: { id: categoryId },
-      include: ['product'],
+      include: ['products'],
     });
     if (!category) {
       throw Boom.notFound('Category not found');
