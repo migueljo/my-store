@@ -4,8 +4,6 @@ import { v4 as uuid } from 'uuid';
 import { User } from './users.schema.js';
 import { UserModel } from './users.model.js';
 
-console.log('Hello from users.service.ts');
-
 export class UsersService {
   async create(user: Omit<User, 'id'>): Promise<User> {
     const alreadyExists = await UserModel.findOne({

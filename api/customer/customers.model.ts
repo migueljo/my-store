@@ -3,8 +3,6 @@ import { Model, DataTypes } from 'sequelize';
 
 export const CUSTOMER_TABLE_NAME = 'customers';
 
-console.log('Hello from customers.model.ts');
-
 export const CustomerModelSchema: ModelAttributes = {
   id: {
     type: DataTypes.UUID,
