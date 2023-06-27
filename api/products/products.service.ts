@@ -16,12 +16,15 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    const products = await ProductModel.findAll();
+    const products = await ProductModel.findAll({ include: ['category'] });
     return products.map((product) => product.toJSON());
   }
 
   async findOne(productId: string): Promise<ProductModel | undefined> {
-    const product = await ProductModel.findOne({ where: { id: productId } });
+    const product = await ProductModel.findOne({
+      where: { id: productId },
+      include: ['category'],
+    });
     const productJSON = product?.toJSON();
 
     if (!productJSON) {
