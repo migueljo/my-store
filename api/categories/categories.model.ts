@@ -41,8 +41,7 @@ export class CategoryModel extends Model {
       sequelize,
       tableName: CATEGORY_TABLE_NAME,
       modelName: CATEGORY_MODEL_NAME,
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+      timestamps: false,
     };
   }
 }

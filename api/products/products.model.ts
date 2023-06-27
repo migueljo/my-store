@@ -58,8 +58,7 @@ export class ProductModel extends Model {
       sequelize,
       tableName: PRODUCT_TABLE_NAME,
       modelName: PRODUCT_MODEL_NAME,
-      updatedAt: 'updated_at',
-      createdAt: 'created_at',
+      timestamps: false,
     };
   }
 }
