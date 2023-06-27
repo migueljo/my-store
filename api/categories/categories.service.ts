@@ -14,12 +14,15 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
-    const categories = await CategoryModel.findAll({ include: ['product'] });
+    const categories = await CategoryModel.findAll();
     return categories.map((c) => c.toJSON());
   }
 
   async findOne(categoryId: string): Promise<CategoryModel> {
-    const category = await CategoryModel.findOne({ where: { id: categoryId } });
+    const category = await CategoryModel.findOne({
+      where: { id: categoryId },
+      include: ['product'],
+    });
     if (!category) {
       throw Boom.notFound('Category not found');
     }
