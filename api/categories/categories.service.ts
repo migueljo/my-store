@@ -14,7 +14,7 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
-    const categories = await CategoryModel.findAll();
+    const categories = await CategoryModel.findAll({ include: ['product'] });
     return categories.map((c) => c.toJSON());
   }
 
