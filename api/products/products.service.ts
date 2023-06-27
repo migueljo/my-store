@@ -16,7 +16,6 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    // TODO: Read this https://sequelize.org/docs/v6/other-topics/transactions/#throw-errors-to-rollback
     const products = await ProductModel.findAll();
     return products.map((product) => product.toJSON());
   }
