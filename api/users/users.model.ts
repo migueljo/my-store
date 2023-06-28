@@ -40,7 +40,7 @@ export const UserModelSchema: ModelAttributes = {
 };
 
 export class UserModel extends Model {
-  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#options
+  // TODO: Read this https://sequelize.org/docs/v6/core-concepts/assocs/#creating-updating-and-deleting
   static associate(sequelize: Sequelize): void {
     // Has one creates the foreign key in the target model (Customer in this case)
     this.hasOne(sequelize.models.Customer, {
