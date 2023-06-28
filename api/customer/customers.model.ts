@@ -48,6 +48,10 @@ export const CustomerModelSchema: ModelAttributes = {
 export class CustomerModel extends Model {
   static associate(sequelize: Sequelize): void {
     this.belongsTo(sequelize.models.User, { as: 'user' });
+    this.hasMany(sequelize.models.Order, {
+      as: 'orders',
+      foreignKey: 'customerId',
+    });
   }
   static config(sequelize: Sequelize): InitOptions {
     return {
