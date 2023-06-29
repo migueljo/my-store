@@ -11,4 +11,4 @@ export const ProductSchema = z.object({
   categoryId: z.string().uuid(),
 });
 
-export type Product = z.infer<typeof ProductSchema>;
+export type ProductType = z.infer<typeof ProductSchema>;

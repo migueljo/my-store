@@ -1,12 +1,12 @@
 import * as Boom from '@hapi/boom';
 import { v4 as uuid } from 'uuid';
 
-import { Product } from './products.schema.js';
+import { ProductType } from './products.schema.js';
 
 import { ProductModel } from './products.model.js';
 
 export class ProductsService {
-  async create(product: Omit<Product, 'id'>): Promise<Product> {
+  async create(product: Omit<ProductType, 'id'>): Promise<ProductType> {
     const newProduct = await ProductModel.create({
       ...product,
       id: uuid(),
@@ -15,7 +15,7 @@ export class ProductsService {
     return newProduct.toJSON();
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<ProductType[]> {
     const products = await ProductModel.findAll({ include: ['category'] });
     return products.map((product) => product.toJSON());
   }
@@ -36,13 +36,16 @@ export class ProductsService {
     return product;
   }
 
-  async update(productId: string, changes: Partial<Product>): Promise<Product> {
+  async update(
+    productId: string,
+    changes: Partial<ProductType>,
+  ): Promise<ProductType> {
     const productToUpdate = await this.findOne(productId);
     const productUpdated = await productToUpdate.update(changes);
     return productUpdated.toJSON();
   }
 
-  async delete(productId: string): Promise<Product> {
+  async delete(productId: string): Promise<ProductType> {
     const productToDelete = await this.findOne(productId);
     await productToDelete.destroy();
     return productToDelete.toJSON();
