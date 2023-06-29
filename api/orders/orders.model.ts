@@ -5,7 +5,7 @@ import { CUSTOMER_TABLE_NAME } from '../customer/customers.model.js';
 export const ORDER_MODEL_NAME = 'Order';
 export const ORDER_TABLE_NAME = 'orders';
 
-export const OrderSchema: ModelAttributes = {
+export const OrderModelSchema: ModelAttributes = {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -30,9 +30,9 @@ export const OrderSchema: ModelAttributes = {
   },
 };
 
-export class Order extends Model {
+export class OrderModel extends Model {
   static associate(sequelize: Sequelize): void {
-    Order.belongsTo(sequelize.models.Customer, {
+    OrderModel.belongsTo(sequelize.models.Customer, {
       as: 'customer',
     });
   }
