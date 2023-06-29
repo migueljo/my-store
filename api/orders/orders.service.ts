@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { OrderModel } from './orders.model.js';
 import { OrderType } from './orders.schema.js';
 
-export class ProductsService {
+export class OrdersService {
   async create(product: Omit<OrderType, 'id'>): Promise<OrderType> {
     const newItem = await OrderModel.create({
       ...product,
@@ -20,7 +20,15 @@ export class ProductsService {
   }
 
   async findOne(id: string): Promise<OrderModel> {
-    const item = await OrderModel.findOne({ where: { id } });
+    const item = await OrderModel.findOne({
+      where: { id },
+      include: [
+        {
+          association: 'customer',
+          include: ['user'],
+        },
+      ],
+    });
     const itemJSON = item?.toJSON();
 
     if (!itemJSON) {

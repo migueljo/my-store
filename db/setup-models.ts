@@ -17,19 +17,16 @@ import { OrderModel, OrderModelSchema } from '../api/orders/orders.model.js';
 
 export function setupModels(sequelize: Sequelize): void {
   try {
-    UserModel.init(UserModelSchema, UserModel.config(sequelize));
-    UserModel.associate(sequelize);
-
     CustomerModel.init(CustomerModelSchema, CustomerModel.config(sequelize));
-    CustomerModel.associate(sequelize);
-
+    UserModel.init(UserModelSchema, UserModel.config(sequelize));
     ProductModel.init(ProductModelSchema, ProductModel.config(sequelize));
-    ProductModel.associate(sequelize);
-
     CategoryModel.init(CategoryModelSchema, CategoryModel.config(sequelize));
-    CategoryModel.associate(sequelize);
-
     OrderModel.init(OrderModelSchema, OrderModel.config(sequelize));
+
+    UserModel.associate(sequelize);
+    CustomerModel.associate(sequelize);
+    ProductModel.associate(sequelize);
+    CategoryModel.associate(sequelize);
     OrderModel.associate(sequelize);
   } catch (error) {
     console.log('setupModels() - error', error);
