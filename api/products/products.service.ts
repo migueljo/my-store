@@ -23,7 +23,6 @@ export class ProductsService {
   async findOne(productId: string): Promise<ProductModel | undefined> {
     const product = await ProductModel.findOne({
       where: { id: productId },
-      // TODO: Use the model itself instead of the string
       include: ['category'],
     });
     const productJSON = product?.toJSON();
