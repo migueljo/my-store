@@ -29,8 +29,6 @@ export class ProductsService {
 
     if (!productJSON) {
       throw Boom.notFound('Product not found');
-    } else if (productJSON.blocked) {
-      throw Boom.conflict('Product is blocked');
     }
     return product;
   }

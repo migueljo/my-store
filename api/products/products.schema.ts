@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
 export const ProductSchema = z.object({
-  // TODO: Remove this after finishing course?
-  blocked: z.boolean().optional(),
   name: z.string(),
   price: z.number().int().min(1),
   image: z.string().url(),
