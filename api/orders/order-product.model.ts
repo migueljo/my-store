@@ -12,6 +12,10 @@ export const OrderProductModelSchema: ModelAttributes = {
     primaryKey: true,
     allowNull: false,
   },
+  ammount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   orderId: {
     type: DataTypes.UUID,
     allowNull: false,
