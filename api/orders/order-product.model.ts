@@ -12,7 +12,7 @@ export const OrderProductModelSchema: ModelAttributes = {
     primaryKey: true,
     allowNull: false,
   },
-  ammount: {
+  amount: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

@@ -14,6 +14,10 @@ import {
   CustomerModelSchema,
 } from '../api/customer/customers.model.js';
 import { OrderModel, OrderModelSchema } from '../api/orders/orders.model.js';
+import {
+  OrderProductModel,
+  OrderProductModelSchema,
+} from '../api/orders/order-product.model.js';
 
 export function setupModels(sequelize: Sequelize): void {
   try {
@@ -22,12 +26,17 @@ export function setupModels(sequelize: Sequelize): void {
     ProductModel.init(ProductModelSchema, ProductModel.config(sequelize));
     CategoryModel.init(CategoryModelSchema, CategoryModel.config(sequelize));
     OrderModel.init(OrderModelSchema, OrderModel.config(sequelize));
+    OrderProductModel.init(
+      OrderProductModelSchema,
+      OrderProductModel.config(sequelize),
+    );
 
     UserModel.associate(sequelize);
     CustomerModel.associate(sequelize);
     ProductModel.associate(sequelize);
     CategoryModel.associate(sequelize);
     OrderModel.associate(sequelize);
+    OrderProductModel.associate(sequelize);
   } catch (error) {
     console.log('setupModels() - error', error);
   }
