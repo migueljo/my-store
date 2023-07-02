@@ -12,6 +12,7 @@ export const ProductSchema = z.object({
 export const ProductQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).optional(),
   offset: z.coerce.number().int().min(1).optional(),
+  price: z.coerce.number().optional(),
 });
 
 export type ProductType = z.infer<typeof ProductSchema>;

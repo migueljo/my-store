@@ -13,13 +13,7 @@ productsRouter.get(
   validatorHandler(ProductQuerySchema, 'query'),
   async (req, res, next) => {
     try {
-      const limit = Number.isNaN(Number(req.query.limit))
-        ? undefined
-        : Number(req.query.limit);
-      const offset = Number.isNaN(Number(req.query.offset))
-        ? undefined
-        : Number(req.query.offset);
-      const products = await productsService.findAll({ limit, offset });
+      const products = await productsService.findAll(req.query);
       res.json(products);
     } catch (error) {
       next(error);

@@ -6,6 +6,12 @@ import { ProductType } from './products.schema.js';
 
 import { ProductModel } from './products.model.js';
 
+type FindAllArgs = {
+  limit?: string;
+  offset?: string;
+  price?: string;
+};
+
 export class ProductsService {
   async create(product: Omit<ProductType, 'id'>): Promise<ProductType> {
     const newProduct = await ProductModel.create({
@@ -16,15 +22,21 @@ export class ProductsService {
     return newProduct.toJSON();
   }
 
-  async findAll({ limit = null, offset = null } = {}): Promise<ProductType[]> {
-    const options: FindOptions<any> = {
+  async findAll(args: FindAllArgs = {}): Promise<ProductType[]> {
+    const { limit, offset, price } = args;
+    const options: FindOptions = {
       include: ['category'],
+      where: {},
     };
     if (limit && offset) {
-      options['limit'] = limit;
-      options['offset'] = offset;
+      options['limit'] = Number(limit);
+      options['offset'] = Number(offset);
     }
-    const products = await ProductModel.findAll({ include: ['category'] });
+    if (price) {
+      options.where['price'] = Number(price);
+    }
+
+    const products = await ProductModel.findAll(options);
     return products.map((product) => product.toJSON());
   }
 
