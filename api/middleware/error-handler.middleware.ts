@@ -9,6 +9,7 @@ export default function errorHandler(
   _next: NextFunction, // next must be declare for express to recognize this as an error middleware handler
 ): void {
   if (error) {
+    console.log('Error handler:', error);
     if (Boom.isBoom(error)) {
       res.status(error.output.statusCode).json(error.output.payload);
     } else {

@@ -20,7 +20,6 @@ export const OrderProductModelSchema: ModelAttributes = {
     type: DataTypes.UUID,
     allowNull: false,
     field: 'order_id',
-    unique: true,
     references: {
       model: ORDER_TABLE_NAME,
       key: 'id',
@@ -32,7 +31,6 @@ export const OrderProductModelSchema: ModelAttributes = {
     type: DataTypes.UUID,
     allowNull: false,
     field: 'product_id',
-    unique: true,
     references: {
       model: PRODUCT_TABLE_NAME,
       key: 'id',
