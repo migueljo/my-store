@@ -1,5 +1,6 @@
 import * as Boom from '@hapi/boom';
 import { v4 as uuid } from 'uuid';
+import type { FindOptions } from 'sequelize';
 
 import { ProductType } from './products.schema.js';
 
@@ -15,7 +16,14 @@ export class ProductsService {
     return newProduct.toJSON();
   }
 
-  async findAll(): Promise<ProductType[]> {
+  async findAll({ limit = null, offset = null } = {}): Promise<ProductType[]> {
+    const options: FindOptions<any> = {
+      include: ['category'],
+    };
+    if (limit && offset) {
+      options['limit'] = limit;
+      options['offset'] = offset;
+    }
     const products = await ProductModel.findAll({ include: ['category'] });
     return products.map((product) => product.toJSON());
   }

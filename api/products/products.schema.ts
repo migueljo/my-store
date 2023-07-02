@@ -9,4 +9,9 @@ export const ProductSchema = z.object({
   categoryId: z.string().uuid(),
 });
 
+export const ProductQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).optional(),
+  offset: z.coerce.number().int().min(1).optional(),
+});
+
 export type ProductType = z.infer<typeof ProductSchema>;

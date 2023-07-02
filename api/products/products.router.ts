@@ -2,20 +2,30 @@ import express from 'express';
 
 import validatorHandler from '../middleware/validator-handler.middleware.js';
 import { ProductsService } from './products.service.js';
-import { ProductSchema } from './products.schema.js';
+import { ProductQuerySchema, ProductSchema } from './products.schema.js';
 
 export const productsRouter = express.Router();
 const baseUrl = '/products';
 const productsService = new ProductsService();
 
-productsRouter.get(baseUrl, async (_req, res, next) => {
-  try {
-    const products = await productsService.findAll();
-    res.json(products);
-  } catch (error) {
-    next(error);
-  }
-});
+productsRouter.get(
+  baseUrl,
+  validatorHandler(ProductQuerySchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const limit = Number.isNaN(Number(req.query.limit))
+        ? undefined
+        : Number(req.query.limit);
+      const offset = Number.isNaN(Number(req.query.offset))
+        ? undefined
+        : Number(req.query.offset);
+      const products = await productsService.findAll({ limit, offset });
+      res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 productsRouter.get(
   `${baseUrl}/:id`,
