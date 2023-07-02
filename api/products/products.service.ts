@@ -1,6 +1,6 @@
 import * as Boom from '@hapi/boom';
 import { v4 as uuid } from 'uuid';
-import type { FindOptions } from 'sequelize';
+import { Op, type FindOptions } from 'sequelize';
 
 import { ProductType } from './products.schema.js';
 
@@ -10,6 +10,8 @@ type FindAllArgs = {
   limit?: string;
   offset?: string;
   price?: string;
+  priceMin?: string;
+  priceMax?: string;
 };
 
 export class ProductsService {
@@ -23,7 +25,7 @@ export class ProductsService {
   }
 
   async findAll(args: FindAllArgs = {}): Promise<ProductType[]> {
-    const { limit, offset, price } = args;
+    const { limit, offset, price, priceMax, priceMin } = args;
     const options: FindOptions = {
       include: ['category'],
       where: {},
@@ -35,7 +37,11 @@ export class ProductsService {
     if (price) {
       options.where['price'] = Number(price);
     }
-    // TODO: Add priceMin and priceMax
+    if (priceMin && priceMax) {
+      options.where['price'] = {
+        [Op.between]: [Number(priceMin), Number(priceMax)],
+      };
+    }
 
     const products = await ProductModel.findAll(options);
     return products.map((product) => product.toJSON());

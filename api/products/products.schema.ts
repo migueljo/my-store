@@ -14,6 +14,7 @@ export const ProductQuerySchema = z.object({
   offset: z.coerce.number().int().min(1).optional(),
   price: z.coerce.number().optional(),
   priceMin: z.coerce.number().optional(),
+  // TODO: priceMax should be reuired if priceMin is present
   priceMax: z.coerce.number().optional(),
 });
 
