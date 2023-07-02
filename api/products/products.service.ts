@@ -35,6 +35,7 @@ export class ProductsService {
     if (price) {
       options.where['price'] = Number(price);
     }
+    // TODO: Add priceMin and priceMax
 
     const products = await ProductModel.findAll(options);
     return products.map((product) => product.toJSON());
