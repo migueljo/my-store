@@ -28,6 +28,17 @@ export const OrderModelSchema: ModelAttributes = {
     defaultValue: DataTypes.NOW,
     field: 'created_at',
   },
+  total: {
+    type: DataTypes.VIRTUAL,
+    get(this: any): number {
+      const products = this.products || [];
+      return products.reduce(
+        (acc: number, product: any) =>
+          acc + product.price * product.OrderProduct.amount,
+        0,
+      );
+    },
+  },
 };
 
 export class OrderModel extends Model {

@@ -44,7 +44,6 @@ export class OrdersService {
 
   async addProduct(product: OrderProductType): Promise<OrderProductType> {
     const productId = uuid();
-    console.log('Hello 000', productId);
     const newProduct = await OrderProductModel.create({
       ...product,
       id: productId,
