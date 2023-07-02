@@ -2,7 +2,8 @@ import * as Boom from '@hapi/boom';
 import { v4 as uuid } from 'uuid';
 
 import { OrderModel } from './orders.model.js';
-import { OrderType } from './orders.schema.js';
+import { OrderProductType, OrderType } from './orders.schema.js';
+import { OrderProductModel } from './order-product.model.js';
 
 export class OrdersService {
   async create(product: Omit<OrderType, 'id'>): Promise<OrderType> {
@@ -27,6 +28,9 @@ export class OrdersService {
           association: 'customer',
           include: ['user'],
         },
+        {
+          association: 'products',
+        },
       ],
     });
     const itemJSON = item?.toJSON();
@@ -36,6 +40,17 @@ export class OrdersService {
     }
 
     return item;
+  }
+
+  async addProduct(product: OrderProductType): Promise<OrderProductType> {
+    const productId = uuid();
+    console.log('Hello 000', productId);
+    const newProduct = await OrderProductModel.create({
+      ...product,
+      id: productId,
+    });
+    console.log('Hello', newProduct.toJSON());
+    return newProduct.toJSON();
   }
 
   async update(id: string, changes: Partial<OrderType>): Promise<OrderType> {
